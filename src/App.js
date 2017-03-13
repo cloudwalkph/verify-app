@@ -6,8 +6,8 @@ import AppNavigator from './routes';
 
 const App = (props) => {
     return props.status.storageLoaded ? <AppNavigator navigation={addNavigationHelpers({
-            dispatch: this.props.dispatch,
-            state: this.props.nav,
+            dispatch: props.dispatch,
+            state: props.nav,
         })} /> : <View/>
 };
 
