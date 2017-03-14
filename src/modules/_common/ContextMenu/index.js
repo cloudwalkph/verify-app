@@ -23,7 +23,7 @@ class ContextMenu extends Component {
             <View style={{ padding: 20, flexDirection: 'row' }}>
                 <Menu onSelect={this._onMenuSelected}>
                     <MenuTrigger>
-                        <Text style={{ fontSize: 20 }}>&#8942;</Text>
+                        <Text style={{ fontSize: 20, padding: 5, color: '#fff' }}>&#8942;</Text>
                     </MenuTrigger>
                     <MenuOptions>
                         <MenuOption value={`sync`}>
