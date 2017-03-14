@@ -8,6 +8,7 @@ import {
     StatusBar
 } from 'react-native';
 import { connect } from 'react-redux';
+import ContextMenu from '../_common/ContextMenu';
 
 class Events extends Component {
     render() {
@@ -20,14 +21,12 @@ class Events extends Component {
 
                 <View style={styles.dropDownContainer}>
                     <Text style={styles.label}>Select an Event</Text>
-                    <TextInput keyboardType="events"
-                               style={styles.textInput}
+                    <TextInput style={styles.textInput}
                                underlineColorAndroid="transparent"
                                placeholder="Select Event" />
 
                     <Text style={styles.label}>Select location</Text>
-                    <TextInput keyboardType="events"
-                               style={styles.textInput}
+                    <TextInput style={styles.textInput}
                                underlineColorAndroid="transparent"
                                placeholder="Select Location" />
 
@@ -42,7 +41,28 @@ class Events extends Component {
     }
 }
 
+Events.navigationOptions = {
+    title: ({ state }) => `HOME`,
+
+    header: ({ state, setParams }) => ({
+        // Render a button on the right side of the header
+        // When pressed switches the screen to edit mode.
+        right: (
+            <ContextMenu />
+        ),
+
+        style: styles.header,
+        titleStyle: styles.headerTitle,
+    })
+};
+
 const styles = StyleSheet.create({
+    header: {
+        backgroundColor: '#282928'
+    },
+    headerTitle: {
+        color: '#fff'
+    },
     container: {
         flex: 1,
         padding: 10,

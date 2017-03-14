@@ -4,19 +4,6 @@ import { MenuContext } from 'react-native-menu';
 import ContextMenu from '../_common/ContextMenu';
 
 class Home extends Component {
-    static navigationOptions = {
-
-        title: ({ state }) => `HOME`,
-
-        header: ({ state, setParams }) => ({
-            // Render a button on the right side of the header
-            // When pressed switches the screen to edit mode.
-            right: (
-                <ContextMenu />
-            ),
-        }),
-    };
-
     render() {
         console.log(this.props);
         return (
@@ -26,5 +13,17 @@ class Home extends Component {
         );
     }
 }
+
+Home.navigationOptions = {
+    title: ({ state }) => `HOME`,
+
+    header: ({ state, setParams }) => ({
+        // Render a button on the right side of the header
+        // When pressed switches the screen to edit mode.
+        right: (
+            <ContextMenu />
+        ),
+    })
+};
 
 export default Home;
