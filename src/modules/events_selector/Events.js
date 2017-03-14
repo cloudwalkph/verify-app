@@ -66,6 +66,12 @@ class Events extends Component {
         }
     };
 
+    _onPressButton = (e) => {
+        const { navigation } = this.props;
+
+        navigation.navigate('Polls');
+    };
+
     render() {
         const { events, status } = this.props;
         const { selectedEvent, selectedLocation, locations } = this.state;
