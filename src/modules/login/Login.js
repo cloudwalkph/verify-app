@@ -141,7 +141,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        login: state.login
+        login: state.login,
+        nav: state.nav
     }
 }
 

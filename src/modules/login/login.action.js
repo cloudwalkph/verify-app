@@ -4,6 +4,8 @@ export const DO_LOGIN = 'DO_LOGIN';
 export const DO_LOGIN_FAILED = 'DO_LOGIN_FAILED';
 export const DO_LOGIN_SUCCESS = 'DO_LOGIN_SUCCESS';
 
+export const DO_LOGOUT = 'DO_LOGOUT';
+
 export const CHECK_AUTH_TOKEN = 'CHECK_AUTH_TOKEN';
 
 export const doLogin = () => (
@@ -22,6 +24,12 @@ export const doLoginSuccess = (auth) => (
     {
         type: DO_LOGIN_SUCCESS,
         auth
+    }
+);
+
+export const doLogout = () => (
+    {
+        type: DO_LOGOUT
     }
 );
 

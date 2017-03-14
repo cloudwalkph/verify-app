@@ -75,6 +75,12 @@ const styles = StyleSheet.create({
     }
 });
 
+function mapStateToProps(state) {
+    return {
+        events: state.events
+    }
+}
+
 
 export default connect(mapStateToProps, {
 

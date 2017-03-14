@@ -10,6 +10,5 @@ export const setAuthToken = (token) => {
 };
 
 export const deleteAuthToken = () => {
-    localStorage.removeItem('token');
-    sessionStorage.removeItem('token');
+    store.delete('token').then(token => {});
 };

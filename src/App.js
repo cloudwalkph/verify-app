@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import {connect} from 'react-redux';
 import { addNavigationHelpers } from 'react-navigation';
 import AppNavigator from './routes';
+import { MenuContext } from 'react-native-menu'
 
 import Login from './modules/login/Login';
 
@@ -14,10 +15,12 @@ class App extends Component {
             // Check if authenticated
             if (login.authenticated) {
                 return (
-                    <AppNavigator navigation={addNavigationHelpers({
-                        dispatch: this.props.dispatch,
-                        state: this.props.nav,
-                    })} />
+                    <MenuContext style={{ flex: 1 }}>
+                        <AppNavigator navigation={addNavigationHelpers({
+                            dispatch: this.props.dispatch,
+                            state: this.props.nav,
+                        })} />
+                    </MenuContext>
                 )
             }
 
