@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 import { connect } from 'react-redux';
 
@@ -9,13 +9,13 @@ import {
 
 class ContextMenu extends Component {
     _onMenuSelected = (value) => {
-        switch (value) {
-            case 'logout':
-                this.props.doLogout();
-                break;
-            default:
-                this.props.doLogout();
-        }
+        // switch (value) {
+        //     case 'logout':
+        //         this.props.doLogout();
+        //         break;
+        //     default:
+        //         this.props.doLogout();
+        // }
     };
 
     render() {
@@ -33,7 +33,14 @@ class ContextMenu extends Component {
                             <Text>Reports</Text>
                         </MenuOption>
                         <MenuOption value={`logout`}>
-                            <Text>Logout</Text>
+                            <Text onPress={() => Alert.alert(
+                                'Confirmation',
+                                'Are you sure you want to log out?',
+                                [
+                                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                                  {text: 'OK', onPress: () => this.props.doLogout()},
+                                ]
+                              )}>Logout</Text>
                         </MenuOption>
                     </MenuOptions>
                 </Menu>
