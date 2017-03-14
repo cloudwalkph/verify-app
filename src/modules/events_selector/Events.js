@@ -42,7 +42,7 @@ class Events extends Component {
 }
 
 Events.navigationOptions = {
-    title: ({ state }) => `HOME`,
+    title: ({ state }) => `Event and Location Selection`,
 
     header: ({ state, setParams }) => ({
         // Render a button on the right side of the header
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     dropDownContainer: {
         flex: 2,
         flexDirection: 'column',
+        justifyContent: 'center'
     },
     textInput: {
         backgroundColor: '#fff',
