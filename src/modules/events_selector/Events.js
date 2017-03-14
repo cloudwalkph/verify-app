@@ -5,15 +5,71 @@ import {
     Text,
     TouchableHighlight,
     StyleSheet,
-    StatusBar
+    StatusBar,
+    NetInfo
 } from 'react-native';
 import { connect } from 'react-redux';
 import ContextMenu from '../_common/ContextMenu';
 
 import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 
+import { getActiveEvents } from './events.reducer';
+import { syncEvents } from './events.action';
+
 class Events extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            selectedEvent: null,
+            selectedLocation: null,
+            locations: [],
+        };
+    }
+
+    componentWillMount() {
+        // NetInfo.addEventListener('change', (reach) =>
+        //     reach !== 'none' && this.props.onRefresh({silent: true})
+        // );
+
+        this.props.onRefresh({silent: true})
+    }
+
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('change');
+    }
+
+    _onEventSelected = (value) => {
+        const { events } = this.props;
+        let index = events.findIndex((item) => { return item.id === value });
+
+        if (index >= 0) {
+            let selectedEvent = events[index];
+
+            this.setState({
+                selectedEvent,
+                locations: selectedEvent.locations
+            });
+        }
+    };
+
+    _onLocationSelected = (value) => {
+        const { locations } = this.state;
+        let index = locations.findIndex((item) => { return item.id === value });
+
+        if (index >= 0) {
+            let selectedLocation = locations[index];
+
+            this.setState({
+                selectedLocation
+            });
+        }
+    };
+
     render() {
+        const { events, status } = this.props;
+        const { selectedEvent, selectedLocation, locations } = this.state;
+
         return (
             <View style={styles.container}>
                 <StatusBar
@@ -24,24 +80,38 @@ class Events extends Component {
                 <View style={styles.dropDownContainer}>
                     <Text style={styles.label}>Select an Event</Text>
 
-                    <Menu>
+                    <Menu onSelect={this._onEventSelected}>
                         <MenuTrigger>
-                            <Text style={styles.textInput}>Select an Event</Text>
+                            <Text style={styles.textInput}>{selectedEvent ? selectedEvent.name : 'Select an Event'}</Text>
                         </MenuTrigger>
                         <MenuOptions>
-                            <MenuOption value={1}>
-                                <Text>Magnum</Text>
-                            </MenuOption>
-                            <MenuOption value={2}>
-                                <Text>Wyeth</Text>
-                            </MenuOption>
+                            {events.map((event, key) => {
+                                return (
+                                    <MenuOption value={event.id} key={key}>
+                                        <Text>{event.name}</Text>
+                                    </MenuOption>
+                                )
+                            })}
+
+
                         </MenuOptions>
                     </Menu>
 
                     <Text style={styles.label}>Select location</Text>
-                    <TextInput style={styles.textInput}
-                               underlineColorAndroid="transparent"
-                               placeholder="Select Location" />
+                    <Menu onSelect={this._onLocationSelected}>
+                        <MenuTrigger disabled={!selectedEvent}>
+                            <Text style={styles.textInput}>{selectedLocation ? selectedLocation.name : 'Select an Event Location'}</Text>
+                        </MenuTrigger>
+                        <MenuOptions>
+                            {locations.map((location, key) => {
+                                return (
+                                    <MenuOption value={location.id} key={key}>
+                                        <Text>{location.name}</Text>
+                                    </MenuOption>
+                                )
+                            })}
+                        </MenuOptions>
+                    </Menu>
 
                     <TouchableHighlight style={styles.button}
                                         underlayColor="#D66F1C"
@@ -111,11 +181,12 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        events: state.events
+        events: getActiveEvents(state),
+        status: state.events.status
     }
 }
 
 
 export default connect(mapStateToProps, {
-
+    onRefresh: syncEvents
 })(Events);

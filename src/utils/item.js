@@ -1,7 +1,7 @@
 export const itemComparator = (a, b) => {
     return a._isNew !== b._isNew
         ? (a._isNew ? -1 : 1)
-        : b.id.localeCompare(a.id);
+        : b.id.toString().localeCompare(a.id.toString());
 };
 
 export const addOrReplaceItem = (list, newItem) => {
