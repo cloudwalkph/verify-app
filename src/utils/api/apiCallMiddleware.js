@@ -60,9 +60,9 @@ export const apiCall = ({ dispatch, url, method = 'get', types, body, originalBo
 
     function onSuccess(data) {
         if (types && types.success) {
-            dispatch({ type: types.success, payload: data, meta });
+            dispatch({ type: types.success, payload: data.data, meta });
         }
-        return data;
+        return data.data;
     }
 };
 
