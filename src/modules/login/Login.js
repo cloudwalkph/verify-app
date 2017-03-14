@@ -36,7 +36,7 @@ class Login extends Component {
         const { login, nav } = this.props;
 
         if (login.authenticated) {
-            nav('Home');
+            nav('EventSelector');
         }
     }
 
