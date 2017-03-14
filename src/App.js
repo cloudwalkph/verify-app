@@ -25,10 +25,7 @@ class App extends Component {
             }
 
             // If not authenticated
-            return <Login navigation={addNavigationHelpers({
-                            dispatch: this.props.dispatch,
-                            state: this.props.nav,
-                        })} />
+            return <Login />
         } else {
             // If the storage is still loading
             return <View />
