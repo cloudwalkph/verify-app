@@ -6,7 +6,7 @@ export const getAuthToken = () => {
 };
 
 export const setAuthToken = (token) => {
-    store.save('token', token);
+    store.save('token', token).then(token => {});
 };
 
 export const deleteAuthToken = () => {

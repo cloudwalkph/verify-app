@@ -25,24 +25,38 @@ export const doLoginSuccess = (auth) => (
     }
 );
 
-export const doLoginRemote = (email, password) => (dispatch) => {
+export const doLoginRemote = (username, password) => (dispatch) => {
     dispatch(doLogin());
 
     const credentials = {
-        email,
+        username,
         password,
         grant_type: 'password',
         client_id: '2',
         client_secret: 'RPln2IDBimiaeD1ObutShdV39CvMeABMZCyFKA3M'
     };
-    let options = Object.assign({ method: 'POST' }, { body: JSON.stringify(credentials) } );
+
+    console.log(credentials);
+
+    let options = Object.assign({ method: 'POST' }, { body: JSON.stringify(credentials) }, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+    } );
 
     return fetch(Config.AUTH_URL, options).then((res) => {
-        console.log(Config.AUTH_URL);
-        if (res.statusCode !== 200) {
-
+        if (!res.ok) {
+            dispatch(doLoginFailed());
+            return;
         }
+
+        res.json().then((json) => {
+            dispatch(doLoginSuccess(json));
+        });
+
     }).catch((error) => {
         console.log(error);
+        dispatch(doLoginFailed());
     })
 };
