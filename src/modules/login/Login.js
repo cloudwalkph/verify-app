@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
     View,
     TextInput,
@@ -17,6 +17,21 @@ import {
 import VerifyLogo from './logo-verify.png';
 
 class Login extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            email: '',
+            password: ''
+        }
+    };
+
+    _onPressButton = (e) => {
+        const { email, password } = this.state;
+
+        this.props.doLoginRemote(email, password);
+    };
+
     render() {
         return (
             <View style={styles.container}>
@@ -36,12 +51,18 @@ class Login extends Component {
                 <View style={styles.loginContainer}>
                     <TextInput keyboardType="email-address"
                                style={styles.textInput}
+                               ref="email"
                                underlineColorAndroid="transparent"
+                               onChangeText={(email) => this.setState({email})}
+                               defaultValue={`sampler1@insite.com`}
                                placeholder="Email" returnKeyType="next" />
 
                     <TextInput placeholder="Password"
                                underlineColorAndroid="transparent"
                                style={styles.textInput}
+                               ref="password"
+                               onChangeText={(password) => this.setState({password})}
+                               defaultValue={`password`}
                                returnKeyType="done" secureTextEntry={true} />
 
                     <TouchableHighlight style={styles.button}
@@ -54,6 +75,11 @@ class Login extends Component {
         )
     }
 }
+
+Login.propTypes = {
+    login: PropTypes.object.isRequired,
+    doLoginRemote: PropTypes.func.isRequired
+};
 
 const styles = StyleSheet.create({
     container: {

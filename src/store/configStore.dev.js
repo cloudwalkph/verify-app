@@ -7,12 +7,13 @@ import devTools from 'remote-redux-devtools';
 import { apiCallMiddleware } from '../utils/api/apiCallMiddleware';
 import { clearBodyMiddleware } from '../utils/api/clearBodyMiddleware';
 import rootReducer from '../rootReducer';
+import Config from 'react-native-config'
 
 const logger = createLogger();
 const store = createStore(rootReducer, compose(
     applyMiddleware(clearBodyMiddleware, apiCallMiddleware, thunk, logger),
     autoRehydrate(),
-    devTools()
+    devTools({ hostname: '192.168.1.87', port: Config.DEVTOOL_PORT })
 ));
 
 persistStore(store, { storage: AsyncStorage });

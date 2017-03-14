@@ -32,13 +32,13 @@ export const doLoginRemote = (email, password) => (dispatch) => {
         email,
         password,
         grant_type: 'password',
-        client_id: '',
-        client_secret: ''
+        client_id: '2',
+        client_secret: 'RPln2IDBimiaeD1ObutShdV39CvMeABMZCyFKA3M'
     };
     let options = Object.assign({ method: 'POST' }, { body: JSON.stringify(credentials) } );
 
     return fetch(Config.AUTH_URL, options).then((res) => {
-        console.log(res.statusCode);
+        console.log(Config.AUTH_URL);
         if (res.statusCode !== 200) {
 
         }
