@@ -48,6 +48,7 @@ class Events extends Component {
 
             this.setState({
                 selectedEvent,
+                selectedLocation: null,
                 locations: selectedEvent.locations
             });
         }
@@ -68,8 +69,17 @@ class Events extends Component {
 
     _onPressButton = (e) => {
         const { navigation } = this.props;
+        const { selectedEvent, selectedLocation } = this.state;
 
-        navigation.navigate('Polls');
+        if (! selectedEvent) {
+            return false;
+        }
+
+        if (! selectedLocation) {
+            return false;
+        }
+
+        navigation.navigate('Polls', {selectedEvent, selectedLocation});
     };
 
     render() {

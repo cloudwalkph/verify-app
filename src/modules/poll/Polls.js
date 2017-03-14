@@ -22,7 +22,6 @@ import Camera from 'react-native-camera';
 class Polls extends Component {
 
     render() {
-
         genderOptions = [
             {
                 label: 'Male',
@@ -135,7 +134,7 @@ class Polls extends Component {
 }
 
 Polls.navigationOptions = {
-    title: ({ state }) => `Event name - Location Name`,
+    title: ({ state }) => `${state.params.selectedEvent.name ? state.params.selectedEvent.name : ''} - ${state.params.selectedLocation.name ? state.params.selectedLocation.name : ''}`,
 
     header: ({ state, setParams }) => ({
         // Render a button on the right side of the header

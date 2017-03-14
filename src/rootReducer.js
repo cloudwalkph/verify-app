@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import status from './modules/_common/status.reducer';
 import login from './modules/login/login.reducer';
 import events from './modules/events_selector/events.reducer';
-import polls from './modules/poll/polls.reducer';
+// import polls from './modules/poll/polls.reducer';
 
 import AppNavigator from './routes';
 const navReducer = (state, action) => {
@@ -15,5 +15,5 @@ export default combineReducers({
     nav: navReducer,
     login,
     events,
-    polls
+    // polls
 });
