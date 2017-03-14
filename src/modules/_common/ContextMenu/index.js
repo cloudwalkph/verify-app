@@ -13,6 +13,9 @@ class ContextMenu extends Component {
             case 'logout':
                 this.props.doLogout();
                 break;
+            case 'event-selection':
+                this.props.nav.navigate('Events');
+                break;
             default:
                 this.props.doLogout();
         }
@@ -26,6 +29,9 @@ class ContextMenu extends Component {
                         <Text style={{ fontSize: 20 }}>&#8942;</Text>
                     </MenuTrigger>
                     <MenuOptions>
+                        <MenuOption value={`event-selection`}>
+                            <Text>Event Selection</Text>
+                        </MenuOption>
                         <MenuOption value={`sync`}>
                             <Text>Sync</Text>
                         </MenuOption>

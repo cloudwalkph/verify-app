@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import status from './modules/_common/status.reducer';
 import login from './modules/login/login.reducer';
-import events from './modules/events_selector/events.action';
+import events from './modules/events_selector/events.reducer';
 
 import AppNavigator from './routes';
 const navReducer = (state, action) => {

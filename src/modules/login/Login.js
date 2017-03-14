@@ -33,10 +33,10 @@ class Login extends Component {
     };
 
     componentDidMount() {
-        const { login, nav } = this.props;
+        const { login, navigation } = this.props;
 
         if (login.authenticated) {
-            nav('EventSelector');
+            navigation.navigate('Events');
         }
     }
 
@@ -141,8 +141,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        login: state.login,
-        nav: state.nav
+        login: state.login
     }
 }
 
