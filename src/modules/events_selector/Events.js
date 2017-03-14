@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
+import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
+
 class Events extends Component {
     render() {
         return (
@@ -20,14 +22,23 @@ class Events extends Component {
 
                 <View style={styles.dropDownContainer}>
                     <Text style={styles.label}>Select an Event</Text>
-                    <TextInput keyboardType="events"
-                               style={styles.textInput}
-                               underlineColorAndroid="transparent"
-                               placeholder="Select Event" />
+
+                    <Menu>
+                        <MenuTrigger>
+                            <Text style={styles.textInput}>Select an Event</Text>
+                        </MenuTrigger>
+                        <MenuOptions>
+                            <MenuOption value={1}>
+                                <Text>Magnum</Text>
+                            </MenuOption>
+                            <MenuOption value={2}>
+                                <Text>Wyeth</Text>
+                            </MenuOption>
+                        </MenuOptions>
+                    </Menu>
 
                     <Text style={styles.label}>Select location</Text>
-                    <TextInput keyboardType="events"
-                               style={styles.textInput}
+                    <TextInput style={styles.textInput}
                                underlineColorAndroid="transparent"
                                placeholder="Select Location" />
 
