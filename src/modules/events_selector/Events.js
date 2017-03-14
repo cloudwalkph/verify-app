@@ -112,7 +112,7 @@ class Events extends Component {
 
                         </MenuOptions>
                     </Menu>
-
+                    <View style={{marginTop: 10}} />
                     <Text style={styles.label}>Select location</Text>
                     <Menu onSelect={this._onLocationSelected}>
                         <MenuTrigger disabled={!selectedEvent}>
@@ -179,7 +179,8 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         borderColor: '#323332',
         borderWidth: 1,
-        padding: 5
+        padding: 10,
+        fontSize: 15
     },
     button: {
         backgroundColor: '#f47f20',
@@ -188,10 +189,12 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     btnText: {
-        color: '#fff'
+        color: '#fff',
+        fontSize: 20
     },
     label: {
-        color: '#f47f20'
+        color: '#f47f20',
+        fontSize: 20
     }
 });
 
