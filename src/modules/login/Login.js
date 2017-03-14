@@ -21,8 +21,8 @@ class Login extends Component {
         super(props)
 
         this.state = {
-            email: '',
-            password: ''
+            email: 'sampler1@insite.com',
+            password: 'password'
         }
     };
 
@@ -31,6 +31,14 @@ class Login extends Component {
 
         this.props.doLoginRemote(email, password);
     };
+
+    componentDidMount() {
+        const { login, nav } = this.props;
+
+        if (login.authenticated) {
+            nav('Home');
+        }
+    }
 
     render() {
         return (

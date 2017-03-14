@@ -15,14 +15,14 @@ class App extends Component {
             if (login.authenticated) {
                 return (
                     <AppNavigator navigation={addNavigationHelpers({
-                        dispatch: props.dispatch,
-                        state: props.nav,
+                        dispatch: this.props.dispatch,
+                        state: this.props.nav,
                     })} />
                 )
             }
 
             // If not authenticated
-            return <Login/>
+            return <Login />
         } else {
             // If the storage is still loading
             return <View />
