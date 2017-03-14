@@ -29,6 +29,10 @@ class Login extends Component {
                     <Image source={VerifyLogo} resizeMode="contain" style={styles.logo} />
                 </View>
 
+                <View style={styles.labelContainer}>
+                    <Text style={styles.label}>Please log in to access AAI Tracker</Text>
+                </View>
+
                 <View style={styles.loginContainer}>
                     <TextInput keyboardType="email-address"
                                style={styles.textInput}
@@ -89,6 +93,14 @@ const styles = StyleSheet.create({
     logo: {
         width: 350,
         marginTop: 20
+    },
+    labelContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10
+    },
+    label: {
+        color: '#fff'
     }
 });
 
