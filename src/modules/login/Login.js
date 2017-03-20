@@ -1,14 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import {
     View,
-    TextInput,
-    Text,
-    TouchableHighlight,
     StyleSheet,
     StatusBar,
     Image
 } from 'react-native';
 import { connect } from 'react-redux';
+
+import { Button, Text, Form, Item, Input, Label, Icon } from 'native-base';
 
 import {
     doLoginRemote
@@ -53,32 +52,35 @@ class Login extends Component {
                 </View>
 
                 <View style={styles.labelContainer}>
-                    <Text style={styles.label}>Please log in to access AAI Tracker</Text>
+                    <Text>Please log in to access AAI Tracker</Text>
                 </View>
 
                 <View style={styles.loginContainer}>
-                    <TextInput keyboardType="email-address"
-                               style={styles.textInput}
+                    <Item regular>
+                        <Icon active name='mail' style={{color: '#fff'}} />
+                        <Input keyboardType="email-address"
                                ref="email"
                                underlineColorAndroid="transparent"
                                onChangeText={(email) => this.setState({email})}
                                defaultValue={`sampler1@insite.com`}
-                               placeholder="Email" returnKeyType="next" />
-
-                    <TextInput placeholder="Password"
+                               placeholder="E-mail Address" returnKeyType="next" />
+                    </Item>
+                    <Item regular>
+                        <Icon active name='vpn-key' style={{color: '#fff'}} />
+                        <Input placeholder="Password"
                                underlineColorAndroid="transparent"
-                               style={styles.textInput}
                                ref="password"
                                onChangeText={(password) => this.setState({password})}
                                defaultValue={`password`}
                                returnKeyType="done" secureTextEntry={true} />
-
-                    <TouchableHighlight style={styles.button}
-                                        underlayColor="#D66F1C"
-                                        onPress={this._onPressButton}>
-                        <Text style={styles.btnText}>Sign In</Text>
-                    </TouchableHighlight>
+                    </Item>
+                    <View style={styles.labelContainer}>
+                        <Button primary block onPress={this._onPressButton}>
+                            <Text>Sign In</Text>
+                        </Button>
+                    </View>
                 </View>
+
             </View>
         )
     }
@@ -100,23 +102,6 @@ const styles = StyleSheet.create({
         flex: 2,
         flexDirection: 'column',
     },
-    textInput: {
-        backgroundColor: '#fff',
-        marginTop: 5,
-        marginBottom: 5,
-        borderColor: '#323332',
-        borderWidth: 1,
-        padding: 5
-    },
-    button: {
-        backgroundColor: '#f47f20',
-        alignItems: 'center',
-        padding: 10,
-        marginTop: 10
-    },
-    btnText: {
-        color: '#fff'
-    },
     logoContainer: {
         flex: 2,
         flexDirection: 'row',
@@ -131,11 +116,7 @@ const styles = StyleSheet.create({
     labelContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 10
     },
-    label: {
-        color: '#fff'
-    }
 });
 
 
