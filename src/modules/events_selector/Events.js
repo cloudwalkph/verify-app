@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
     View,
     TextInput,
-    Text,
     TouchableHighlight,
     StyleSheet,
     StatusBar,
@@ -11,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import ContextMenu from '../_common/ContextMenu';
 
-import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
+import { Picker, Item, Text, Button } from 'native-base';
 
 import { getActiveEvents } from './events.reducer';
 import { syncEvents } from './events.action';
@@ -82,6 +81,7 @@ class Events extends Component {
         navigation.navigate('Polls', {selectedEvent, selectedLocation});
     };
 
+
     render() {
         const { events, status } = this.props;
         const { selectedEvent, selectedLocation, locations } = this.state;
@@ -94,46 +94,43 @@ class Events extends Component {
                 />
 
                 <View style={styles.dropDownContainer}>
-                    <Text style={styles.label}>Select an Event</Text>
+                    <Text style={{color: '#f47f20',fontSize: 20}}>Select an Event</Text>
 
-                    <Menu onSelect={this._onEventSelected}>
-                        <MenuTrigger>
-                            <Text style={styles.textInput}>{selectedEvent ? selectedEvent.name : 'Select an Event'}</Text>
-                        </MenuTrigger>
-                        <MenuOptions>
-                            {events.map((event, key) => {
-                                return (
-                                    <MenuOption value={event.id} key={key}>
-                                        <Text>{event.name}</Text>
-                                    </MenuOption>
-                                )
-                            })}
+                    <Picker
+                        style={{ backgroundColor: '#fff',borderColor: '#323332' }}
+                        iosHeader="Select one"
+                        mode="dropdown"
+                        selectedValue={this.selectedEvent}
+                        onValueChange={this._onEventSelected.bind(this)} >
+                        {events.map((event, key) => {
+                            return (
+                                    <Item label={event.name} value={event.id} key={key} />
+                            )
+                        })}
+                    </Picker>
 
-
-                        </MenuOptions>
-                    </Menu>
                     <View style={{marginTop: 10}} />
-                    <Text style={styles.label}>Select location</Text>
-                    <Menu onSelect={this._onLocationSelected}>
-                        <MenuTrigger disabled={!selectedEvent}>
-                            <Text style={styles.textInput}>{selectedLocation ? selectedLocation.name : 'Select an Event Location'}</Text>
-                        </MenuTrigger>
-                        <MenuOptions>
-                            {locations.map((location, key) => {
-                                return (
-                                    <MenuOption value={location.id} key={key}>
-                                        <Text>{location.name}</Text>
-                                    </MenuOption>
-                                )
-                            })}
-                        </MenuOptions>
-                    </Menu>
+                    <Text style={{color: '#f47f20',fontSize: 20}}>Select location</Text>
+                    <Picker
+                        style={{ backgroundColor: '#fff',borderColor: '#323332' }}
+                        disabled={!selectedEvent}
+                        iosHeader="Select one"
+                        mode="dropdown"
+                        selectedValue={this.selectedLocation}
+                        onValueChange={this._onLocationSelected.bind(this)} >
+                        {locations.map((location, key) => {
+                            return (
+                                <Item label={location.name} value={location.id} key={key} />
+                            )
+                        })}
+                    </Picker>
 
-                    <TouchableHighlight style={styles.button}
-                                        underlayColor="#D66F1C"
-                                        onPress={this._onPressButton}>
-                        <Text style={styles.btnText}>Go to Poll</Text>
-                    </TouchableHighlight>
+                    <View style={{marginTop: 20}}>
+                        <Button primary block onPress={this._onPressButton}>
+                            <Text style={{fontSize: 15}}>Go to Poll</Text>
+                        </Button>
+                    </View>
+
                 </View>
             </View>
         )
@@ -182,20 +179,6 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: 15
     },
-    button: {
-        backgroundColor: '#f47f20',
-        alignItems: 'center',
-        padding: 10,
-        marginTop: 10
-    },
-    btnText: {
-        color: '#fff',
-        fontSize: 20
-    },
-    label: {
-        color: '#f47f20',
-        fontSize: 20
-    }
 });
 
 function mapStateToProps(state) {

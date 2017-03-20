@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Button, Text, Form, Item, Input, Label, Icon } from 'native-base';
+import { Button, Text, Item, Input, Icon } from 'native-base';
 
 import {
     doLoginRemote
@@ -74,9 +74,9 @@ class Login extends Component {
                                defaultValue={`password`}
                                returnKeyType="done" secureTextEntry={true} />
                     </Item>
-                    <View style={styles.labelContainer}>
+                    <View style={{marginTop: 20}}>
                         <Button primary block onPress={this._onPressButton}>
-                            <Text>Sign In</Text>
+                            <Text style={{fontSize: 15}}>Sign In</Text>
                         </Button>
                     </View>
                 </View>
