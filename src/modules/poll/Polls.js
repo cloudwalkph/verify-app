@@ -17,11 +17,15 @@ import { SegmentedControls } from 'react-native-radio-buttons';
 import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 
 import CameraImg from './camera.png';
-import Camera from 'react-native-camera';
 
 class Polls extends Component {
+    setSelectedOption = (selectedOption) => {
+
+    };
 
     render() {
+        const { navigate } = this.props.navigation;
+
         genderOptions = [
             {
                 label: 'Male',
@@ -52,25 +56,15 @@ class Polls extends Component {
             }
         ];
 
-
-        function setSelectedOption(selectedOption){
-
-        }
-
         const extractText = (option) => option.label;
 
         return (
             <ScrollView style={styles.container}>
                 <View style={styles.imgContainer}>
-                    <Image source={CameraImg} resizeMode="contain" style={styles.img} />
-                    <Camera
-                        ref={(cam) => {
-                        this.camera = cam;
-                    }}
-                        style={styles.preview}
-                        aspect={Camera.constants.Aspect.fill}>
-                        <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
-                    </Camera>
+                    <TouchableHighlight onPress={() => navigate('Camera') }>
+                        <Image source={CameraImg} resizeMode="contain"
+                               style={styles.img} />
+                    </TouchableHighlight>
                 </View>
                 <View>
                     <View style={styles.optionsContainer}>
@@ -81,7 +75,7 @@ class Polls extends Component {
                             options={ genderOptions }
                             extractText={ (option) => option.label }
                             allowFontScaling={ false } // default: true
-                            onSelection={ setSelectedOption.bind(this) }
+                            onSelection={ this.setSelectedOption.bind(this) }
                             optionContainerStyle={{flex: 1}}
                         />
                     </View>
@@ -92,7 +86,7 @@ class Polls extends Component {
                             backTint= {'#555'}
                             options={ ageOptions }
                             extractText={ (option) => option.label }
-                            onSelection={ setSelectedOption.bind(this) }
+                            onSelection={ this.setSelectedOption.bind(this) }
                             optionContainerStyle={{flex: 1}}
                         />
                     </View>
@@ -125,11 +119,6 @@ class Polls extends Component {
                 </View>
             </ScrollView>
         )
-    }
-    takePicture() {
-        this.camera.capture()
-            .then((data) => console.log(data))
-            .catch(err => console.error(err));
     }
 }
 
