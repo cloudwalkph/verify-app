@@ -46,7 +46,7 @@ class Events extends Component {
             let selectedEvent = events[index];
 
             this.setState({
-                selectedEvent,
+                selectedEvent: value,
                 selectedLocation: null,
                 locations: selectedEvent.locations
             });
@@ -61,7 +61,7 @@ class Events extends Component {
             let selectedLocation = locations[index];
 
             this.setState({
-                selectedLocation
+                selectedLocation: value
             });
         }
     };
@@ -100,7 +100,7 @@ class Events extends Component {
                         style={{ backgroundColor: '#fff',borderColor: '#323332' }}
                         iosHeader="Select one"
                         mode="dropdown"
-                        selectedValue={this.selectedEvent}
+                        selectedValue={selectedEvent}
                         onValueChange={this._onEventSelected.bind(this)} >
                         {events.map((event, key) => {
                             return (
@@ -116,7 +116,7 @@ class Events extends Component {
                         disabled={!selectedEvent}
                         iosHeader="Select one"
                         mode="dropdown"
-                        selectedValue={this.selectedLocation}
+                        selectedValue={selectedLocation}
                         onValueChange={this._onLocationSelected.bind(this)} >
                         {locations.map((location, key) => {
                             return (
