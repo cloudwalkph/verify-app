@@ -9,7 +9,7 @@ import {
     Image
 } from 'react-native';
 
-import { Content, Left, Body, Right, ListItem, Thumbnail, Text } from 'native-base';
+import { Content, Left, Body, Right, ListItem, Thumbnail, Text, Segment, Button, H3 } from 'native-base';
 
 import ContextMenu from '../_common/ContextMenu';
 import CameraImg from './images/camera.png';
@@ -92,6 +92,14 @@ class Reports extends Component {
         return (
             <ScrollView style={styles.container}>
                 <Content>
+                    <H3>Hits:</H3>
+                    <Segment>
+                        <Button first><Text>Male: 6</Text></Button>
+                        <Button><Text>Female: 4</Text></Button>
+                        <Button last><Text>Total: 10</Text></Button>
+                    </Segment>
+
+
                     {sampleReports.map((report, key) => {
                         return (
                             <ListItem avatar key={key}>
