@@ -25,6 +25,7 @@ class Polls extends Component {
 
     render() {
         const { navigate } = this.props.navigation;
+        const { camera } = this.props;
 
         genderOptions = [
             {
@@ -62,7 +63,7 @@ class Polls extends Component {
             <ScrollView style={styles.container}>
                 <View style={styles.imgContainer}>
                     <TouchableHighlight onPress={() => navigate('Camera') }>
-                        <Image source={CameraImg} resizeMode="contain"
+                        <Image source={camera.picture ? { isStatic: true, uri: camera.picture, } : CameraImg} resizeMode="contain"
                                style={styles.img} />
                     </TouchableHighlight>
                 </View>
@@ -206,7 +207,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        events: state.events
+        events: state.events,
+        camera: state.camera
     }
 }
 
