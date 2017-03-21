@@ -9,12 +9,14 @@ import {
 
 class ContextMenu extends Component {
     _onMenuSelected = (value) => {
+        // const { navigation } = this.props;
+        //
         // switch (value) {
-        //     case 'logout':
-        //         this.props.doLogout();
+        //     case 'reports':
+        //         navigation.navigate('Reports');
         //         break;
         //     default:
-        //         this.props.doLogout();
+        //         navigation.navigate('Reports');
         // }
     };
 

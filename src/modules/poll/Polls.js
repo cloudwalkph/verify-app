@@ -140,7 +140,7 @@ Polls.navigationOptions = {
 
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: '#282928'
+        backgroundColor: '#282928',
     },
     headerTitle: {
         color: '#fff'
