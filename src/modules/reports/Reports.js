@@ -6,16 +6,25 @@ import {
     StyleSheet,
     StatusBar,
     ScrollView,
-    Image
+    Image,
+    Alert
 } from 'react-native';
 
-import { Content, Left, Body, Right, ListItem, Thumbnail, Text, Segment, Button, H3 } from 'native-base';
+import { Text, Button, Container, Footer, Content, H3, Segment,
+    FooterTab, Icon, Header, Body, Title, Left, Right, ListItem, Thumbnail } from 'native-base';
 
 import ContextMenu from '../_common/ContextMenu';
 import CameraImg from './images/camera.png';
 
+import { connect } from 'react-redux';
+
+import {
+    doLogout
+} from '../login/login.action';
+
 class Reports extends Component {
     render() {
+        const { navigate } = this.props.navigation;
         sampleReports = [
             {
                 name: 'Roy Mustang',
@@ -90,37 +99,69 @@ class Reports extends Component {
         ];
 
         return (
-            <ScrollView style={styles.container}>
-                <Content>
-                    <H3>Hits:</H3>
-                    <Segment>
-                        <Button first><Text>Male: 6</Text></Button>
-                        <Button><Text>Female: 4</Text></Button>
-                        <Button last><Text>Total: 10</Text></Button>
-                    </Segment>
+            <Container>
+                <Header>
+                    <Body>
+                    <Title>Reports</Title>
+                    </Body>
+                </Header>
+
+                <ScrollView style={styles.container}>
+                    <Content>
+                        <H3>Hits:</H3>
+                        <Segment>
+                            <Button first><Text>Male: 6</Text></Button>
+                            <Button><Text>Female: 4</Text></Button>
+                            <Button last><Text>Total: 10</Text></Button>
+                        </Segment>
 
 
-                    {sampleReports.map((report, key) => {
-                        return (
-                            <ListItem avatar key={key}>
-                                <Left>
-                                    <Thumbnail square source={ require('./images/thompson.png') } />
-                                </Left>
-                                <Body>
-                                <Text>{report.name}</Text>
-                                <Text note>{report.email}</Text>
-                                <Text note>{report.contact_number}</Text>
-                                <Text note>{report.gender}</Text>
-                                </Body>
-                                <Right>
-                                    <Text note>03/21/2017</Text>
-                                    <Text note>1:30 pm</Text>
-                                </Right>
-                            </ListItem>
-                        )
-                    })}
-                </Content>
-            </ScrollView>
+                        {sampleReports.map((report, key) => {
+                            return (
+                                <ListItem avatar key={key}>
+                                    <Left>
+                                        <Thumbnail square source={ require('./images/thompson.png') } />
+                                    </Left>
+                                    <Body>
+                                    <Text>{report.name}</Text>
+                                    <Text note>{report.email}</Text>
+                                    <Text note>{report.contact_number}</Text>
+                                    <Text note>{report.gender}</Text>
+                                    </Body>
+                                    <Right>
+                                        <Text note>03/21/2017</Text>
+                                        <Text note>1:30 pm</Text>
+                                    </Right>
+                                </ListItem>
+                            )
+                        })}
+                    </Content>
+                </ScrollView>
+
+                <Footer >
+                    <FooterTab>
+                        <Button onPress={() => navigate('Home') }>
+                            <Icon name="view-list" />
+                            <Text>Events</Text>
+                        </Button>
+                        <Button onPress={() => navigate('Reports') }>
+                            <Icon name="insert-chart" />
+                            <Text>Reports</Text>
+                        </Button>
+                        <Button onPress={() => Alert.alert(
+                                'Confirmation',
+                                'Are you sure you want to log out?',
+                                [
+                                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                                  {text: 'OK', onPress: () => this.props.doLogout()},
+                                ]
+                              )}>
+                            <Icon name="power-settings-new" />
+                            <Text>Logout</Text>
+                        </Button>
+                    </FooterTab>
+                </Footer>
+            </Container>
         )
     }
 }
@@ -137,6 +178,7 @@ Reports.navigationOptions = {
 
         style: styles.header,
         titleStyle: styles.headerTitle,
+        visible: false
     })
 };
 
@@ -207,4 +249,12 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Reports;
+function mapStateToProps(state) {
+    return {
+        login: state.login
+    }
+}
+
+export default connect(mapStateToProps, {
+    doLogout
+})(Reports);

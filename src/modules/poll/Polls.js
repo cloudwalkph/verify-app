@@ -7,7 +7,8 @@ import {
     TouchableHighlight,
     StyleSheet,
     StatusBar,
-    ScrollView
+    ScrollView,
+    Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import ContextMenu from '../_common/ContextMenu';
@@ -16,7 +17,14 @@ import { SegmentedControls } from 'react-native-radio-buttons';
 
 import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 
+import { Button, Container, Footer,
+    FooterTab, Icon, Header, Body, Title } from 'native-base';
+
 import CameraImg from './camera.png';
+
+import {
+    doLogout
+} from '../login/login.action';
 
 class Polls extends Component {
     setSelectedOption = (selectedOption) => {
@@ -60,65 +68,95 @@ class Polls extends Component {
         const extractText = (option) => option.label;
 
         return (
-            <ScrollView style={styles.container}>
-                <View style={styles.imgContainer}>
-                    <TouchableHighlight onPress={() => navigate('Camera') }>
-                        <Image source={camera.picture ? { isStatic: true, uri: camera.picture, } : CameraImg} resizeMode="contain"
-                               style={styles.img} />
-                    </TouchableHighlight>
-                </View>
-                <View>
-                    <View style={styles.optionsContainer}>
-                        <SegmentedControls
-                            tint={'#f47f20'}
-                            selectedTint= {'white'}
-                            backTint= {'#555'}
-                            options={ genderOptions }
-                            extractText={ (option) => option.label }
-                            allowFontScaling={ false } // default: true
-                            onSelection={ this.setSelectedOption.bind(this) }
-                            optionContainerStyle={{flex: 1}}
-                        />
+            <Container>
+                <Header>
+                    <Body>
+                        <Title>Event and Location Selection</Title>
+                    </Body>
+                </Header>
+
+                <ScrollView style={styles.container}>
+                    <View style={styles.imgContainer}>
+                        <TouchableHighlight onPress={() => navigate('Camera') }>
+                            <Image source={camera.picture ? { isStatic: true, uri: camera.picture, } : CameraImg} resizeMode="contain"
+                                   style={styles.img} />
+                        </TouchableHighlight>
                     </View>
-                    <View style={styles.optionsContainer}>
-                        <SegmentedControls
-                            tint={'#f47f20'}
-                            selectedTint= {'white'}
-                            backTint= {'#555'}
-                            options={ ageOptions }
-                            extractText={ (option) => option.label }
-                            onSelection={ this.setSelectedOption.bind(this) }
-                            optionContainerStyle={{flex: 1}}
-                        />
+                    <View>
+                        <View style={styles.optionsContainer}>
+                            <SegmentedControls
+                                tint={'#f47f20'}
+                                selectedTint= {'white'}
+                                backTint= {'#555'}
+                                options={ genderOptions }
+                                extractText={ (option) => option.label }
+                                allowFontScaling={ false } // default: true
+                                onSelection={ this.setSelectedOption.bind(this) }
+                                optionContainerStyle={{flex: 1}}
+                            />
+                        </View>
+                        <View style={styles.optionsContainer}>
+                            <SegmentedControls
+                                tint={'#f47f20'}
+                                selectedTint= {'white'}
+                                backTint= {'#555'}
+                                options={ ageOptions }
+                                extractText={ (option) => option.label }
+                                onSelection={ this.setSelectedOption.bind(this) }
+                                optionContainerStyle={{flex: 1}}
+                            />
+                        </View>
                     </View>
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Name</Text>
-                    <TextInput style={styles.textInput}
-                               ref="name"
-                               underlineColorAndroid="transparent"
-                               placeholder="Name" returnKeyType="next" />
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Name</Text>
+                        <TextInput style={styles.textInput}
+                                   ref="name"
+                                   underlineColorAndroid="transparent"
+                                   placeholder="Name" returnKeyType="next" />
 
-                    <Text style={styles.label}>Contact Number</Text>
-                    <TextInput style={styles.textInput}
-                               ref="contact_number"
-                               underlineColorAndroid="transparent"
-                               placeholder="Contact Number" returnKeyType="next" />
+                        <Text style={styles.label}>Contact Number</Text>
+                        <TextInput style={styles.textInput}
+                                   ref="contact_number"
+                                   underlineColorAndroid="transparent"
+                                   placeholder="Contact Number" returnKeyType="next" />
 
-                    <Text style={styles.label}>Email Address</Text>
-                    <TextInput keyboardType="email-address"
-                               style={styles.textInput}
-                               ref="email"
-                               underlineColorAndroid="transparent"
-                               placeholder="Email Address" returnKeyType="done" />
+                        <Text style={styles.label}>Email Address</Text>
+                        <TextInput keyboardType="email-address"
+                                   style={styles.textInput}
+                                   ref="email"
+                                   underlineColorAndroid="transparent"
+                                   placeholder="Email Address" returnKeyType="done" />
 
-                    <TouchableHighlight style={styles.button}
-                                        underlayColor="#D66F1C"
-                                        onPress={this._onPressButton}>
-                        <Text style={styles.btnText}>Save Answer</Text>
-                    </TouchableHighlight>
-                </View>
-            </ScrollView>
+                        <Button block primary onPress={this._onPressButton}>
+                            <Text style={styles.btnText}>Save Answer</Text>
+                        </Button>
+                    </View>
+                </ScrollView>
+
+                <Footer >
+                    <FooterTab>
+                        <Button onPress={() => navigate('Home') }>
+                            <Icon name="view-list" />
+                            <Text style={styles.headerTitle}>Events</Text>
+                        </Button>
+                        <Button onPress={() => navigate('Reports') }>
+                            <Icon name="insert-chart" />
+                            <Text style={styles.headerTitle}>Reports</Text>
+                        </Button>
+                        <Button onPress={() => Alert.alert(
+                                'Confirmation',
+                                'Are you sure you want to log out?',
+                                [
+                                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                                  {text: 'OK', onPress: () => this.props.doLogout()},
+                                ]
+                              )}>
+                            <Icon name="power-settings-new" />
+                            <Text style={styles.headerTitle}>Logout</Text>
+                        </Button>
+                    </FooterTab>
+                </Footer>
+            </Container>
         )
     }
 }
@@ -135,6 +173,7 @@ Polls.navigationOptions = {
 
         style: styles.header,
         titleStyle: styles.headerTitle,
+        visible: false
     })
 };
 
@@ -208,11 +247,12 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
     return {
         events: state.events,
-        camera: state.camera
+        camera: state.camera,
+        login: state.login
     }
 }
 
 
 export default connect(mapStateToProps, {
-
+    doLogout
 })(Polls);

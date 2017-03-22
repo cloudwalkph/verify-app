@@ -23,18 +23,18 @@ class ContextMenu extends Component {
     render() {
         return (
             <View style={{ padding: 20, flexDirection: 'row' }}>
-                <Menu onSelect={this._onMenuSelected}>
+                <Menu>
                     <MenuTrigger>
-                        <Text style={{ fontSize: 20, padding: 5, color: '#fff' }}>&#8942;</Text>
+                        <Text style={{ fontSize: 20, padding: 5, color: '#fff' }}>&#8942; hello</Text>
                     </MenuTrigger>
                     <MenuOptions>
-                        <MenuOption value={`sync`}>
+                        <MenuOption>
                             <Text>Sync</Text>
                         </MenuOption>
-                        <MenuOption value={`reports`}>
+                        <MenuOption>
                             <Text>Reports</Text>
                         </MenuOption>
-                        <MenuOption value={`logout`}>
+                        <MenuOption>
                             <Text onPress={() => Alert.alert(
                                 'Confirmation',
                                 'Are you sure you want to log out?',
