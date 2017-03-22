@@ -16,9 +16,9 @@ class Camera extends Component {
     }
 
     _goBack = () => {
-        const { goBack } = this.props.navigation;
+        const { navigate } = this.props.navigation;
 
-        goBack();
+        navigate('Polls');
         this.props.clearPicture();
     };
 
@@ -35,17 +35,21 @@ class Camera extends Component {
                 ref={(cam) => {
                   this.camera = cam;
                 }}
-                captureQuality={CameraView.constants.CaptureQuality.low}
+                captureQuality={CameraView.constants.CaptureQuality.medium}
                 style={styles.preview}
                 aspect={CameraView.constants.Aspect.fill}
                 captureTarget={CameraView.constants.CaptureTarget.disk}>
-                <TouchableHighlight
-                    style={styles.back}
-                    onPress={this._goBack}
-                    underlayColor="rgba(255, 255, 255, 0.5)"
-                >
-                    <Icon name="arrow-back" style={{color: '#fff', margin: 15}} />
-                </TouchableHighlight>
+                <Button transparent bordered light
+                    style={{position: 'absolute',
+                            left: 20,
+                            bottom: 15,
+                            width: 66,
+                            height: 66,
+                            borderRadius: 35,
+                            borderWidth: 3,}}
+                    onPress={this._goBack} >
+                    <Icon name="arrow-back" style={{color: '#fff'}} />
+                </Button>
 
                 <TouchableHighlight
                     style={styles.capture}
