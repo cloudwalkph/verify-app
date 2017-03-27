@@ -113,7 +113,7 @@ class Events extends Component {
                         <Picker
                             style={{ backgroundColor: '#fff',borderColor: '#323332' }}
                             iosHeader="Select one"
-                            mode="dropdown"
+                            mode="dialog"
                             selectedValue={selectedEvent}
                             onValueChange={this._onEventSelected.bind(this)} >
                             {events.map((event, key) => {
@@ -129,7 +129,7 @@ class Events extends Component {
                             style={{ backgroundColor: '#fff',borderColor: '#323332' }}
                             disabled={!selectedEvent}
                             iosHeader="Select one"
-                            mode="dropdown"
+                            mode="dialog"
                             selectedValue={selectedLocation}
                             onValueChange={this._onLocationSelected.bind(this)} >
                             {locations.map((location, key) => {

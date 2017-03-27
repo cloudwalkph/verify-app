@@ -20,11 +20,46 @@ import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 import { Button, Container, Footer,
     FooterTab, Icon, Header, Body, Title } from 'native-base';
 
+import ButtonGroup from '../_common/ButtonGroup';
+
 import CameraImg from './camera.png';
 
 import {
     doLogout
 } from '../login/login.action';
+
+const ageGroupButtons = [
+    {
+        text: 'Below 11'
+    },
+    {
+        text: '12 - 18'
+    },
+    {
+        text: '19 - 30'
+    },
+    {
+        text: '31 - 40'
+    },
+    {
+        text: '41 - 50'
+    },
+    {
+        text: '51 - 60'
+    },
+    {
+        text: '60 Above'
+    }
+];
+
+const genderGroupButtons = [
+    {
+        text: 'Male'
+    },
+    {
+        text: 'Female'
+    }
+];
 
 class Polls extends Component {
     setSelectedOption = (selectedOption) => {
@@ -84,27 +119,10 @@ class Polls extends Component {
                     </View>
                     <View>
                         <View style={styles.optionsContainer}>
-                            <SegmentedControls
-                                tint={'#f47f20'}
-                                selectedTint= {'white'}
-                                backTint= {'#555'}
-                                options={ genderOptions }
-                                extractText={ (option) => option.label }
-                                allowFontScaling={ false } // default: true
-                                onSelection={ this.setSelectedOption.bind(this) }
-                                optionContainerStyle={{flex: 1}}
-                            />
+                            <ButtonGroup items={genderGroupButtons} />
                         </View>
                         <View style={styles.optionsContainer}>
-                            <SegmentedControls
-                                tint={'#f47f20'}
-                                selectedTint= {'white'}
-                                backTint= {'#555'}
-                                options={ ageOptions }
-                                extractText={ (option) => option.label }
-                                onSelection={ this.setSelectedOption.bind(this) }
-                                optionContainerStyle={{flex: 1}}
-                            />
+                            <ButtonGroup items={ageGroupButtons} />
                         </View>
                     </View>
                     <View style={styles.inputContainer}>
