@@ -13,14 +13,8 @@ import {
 import { connect } from 'react-redux';
 import ContextMenu from '../_common/ContextMenu';
 
-import { SegmentedControls } from 'react-native-radio-buttons';
-
-import Menu, { MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
-
-import { Button, Container, Footer,
+import { Button, Container, Footer, Picker, Item,
     FooterTab, Icon, Header, Body, Title } from 'native-base';
-
-import ButtonGroup from '../_common/ButtonGroup';
 
 import CameraImg from './camera.png';
 
@@ -30,34 +24,43 @@ import {
 
 const ageGroupButtons = [
     {
-        text: 'Below 11'
+        label: 'Below 11',
+        value: 'below 11'
     },
     {
-        text: '12 - 18'
+        label: '12 - 18',
+        value: '12 - 18'
     },
     {
-        text: '19 - 30'
+        label: '19 - 30',
+        value: '19 - 30'
     },
     {
-        text: '31 - 40'
+        label: '31 - 40',
+        value: '31 - 40'
     },
     {
-        text: '41 - 50'
+        label: '41 - 50',
+        value: '41 - 50'
     },
     {
-        text: '51 - 60'
+        label: '51 - 60',
+        value: '51 - 60'
     },
     {
-        text: '60 Above'
+        label: '60 Above',
+        value: '60 above'
     }
 ];
 
 const genderGroupButtons = [
     {
-        text: 'Male'
+        label: 'Male',
+        value: 'male'
     },
     {
-        text: 'Female'
+        label: 'Female',
+        value: 'female'
     }
 ];
 
@@ -66,39 +69,31 @@ class Polls extends Component {
 
     };
 
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            selectedAge: null,
+            selectedGender: null,
+        };
+    }
+
+    _onAgeSelected = (value) => {
+        this.setState({
+            selectedAge: value,
+        });
+    };
+
+    _onGenderSelected = (value) => {
+        this.setState({
+            selectedGender: value,
+        });
+    };
+
     render() {
-        const { navigate } = this.props.navigation;
+        // const { navigate } = this.props.navigation;
         const { camera } = this.props;
-
-        genderOptions = [
-            {
-                label: 'Male',
-                value: 'male'
-            },
-            {
-                label: 'Female',
-                value: 'female'
-            }
-        ];
-
-        ageOptions = [
-            {
-                label: '15-20',
-                value: '15-20'
-            },
-            {
-                label: '21-25',
-                value: '21-25'
-            },
-            {
-                label: '26-30',
-                value: '26-30'
-            },
-            {
-                label: '31-35',
-                value: '31-35'
-            }
-        ];
+        const { selectedGender, selectedAge } = this.state;
 
         const extractText = (option) => option.label;
 
@@ -117,14 +112,41 @@ class Polls extends Component {
                                    style={styles.img} />
                         </TouchableHighlight>
                     </View>
-                    <View>
-                        <View style={styles.optionsContainer}>
-                            <ButtonGroup items={genderGroupButtons} />
-                        </View>
-                        <View style={styles.optionsContainer}>
-                            <ButtonGroup items={ageGroupButtons} />
-                        </View>
+
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Select gender</Text>
+                        <Picker
+                            style={{ backgroundColor: '#fff',borderColor: '#323332' }}
+                            iosHeader="Select one"
+                            mode="dialog"
+                            prompt="Select gender"
+                            selectedValue={selectedGender}
+                            onValueChange={this._onGenderSelected.bind(this)} >
+                            {genderGroupButtons.map((gender, key) => {
+                                return (
+                                    <Item label={gender.label} value={gender.value} key={key} />
+                                )
+                            })}
+                        </Picker>
                     </View>
+
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Select age category</Text>
+                        <Picker
+                            style={{ backgroundColor: '#fff',borderColor: '#323332' }}
+                            iosHeader="Select one"
+                            mode="dialog"
+                            prompt="Select age category"
+                            selectedValue={selectedAge}
+                            onValueChange={this._onAgeSelected.bind(this)} >
+                            {ageGroupButtons.map((age, key) => {
+                                return (
+                                    <Item label={age.label} value={age.value} key={key} />
+                                )
+                            })}
+                        </Picker>
+                    </View>
+
                     <View style={styles.inputContainer}>
                         <Text style={styles.label}>Name</Text>
                         <TextInput style={styles.textInput}
@@ -221,7 +243,7 @@ const styles = StyleSheet.create({
     textInput: {
         backgroundColor: '#fff',
         marginTop: 5,
-        marginBottom: 5,
+        marginBottom: 10,
         borderColor: '#323332',
         borderWidth: 1,
         padding: 5
@@ -259,7 +281,7 @@ const styles = StyleSheet.create({
         color: '#000',
         padding: 10,
         margin: 40
-    }
+    },
 });
 
 function mapStateToProps(state) {
