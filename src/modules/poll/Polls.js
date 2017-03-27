@@ -91,7 +91,7 @@ class Polls extends Component {
     };
 
     render() {
-        // const { navigate } = this.props.navigation;
+        const { navigate } = this.props.navigation;
         const { camera } = this.props;
         const { selectedGender, selectedAge } = this.state;
 
