@@ -62,7 +62,7 @@ class Login extends Component {
                                ref="email"
                                underlineColorAndroid="transparent"
                                onChangeText={(email) => this.setState({email})}
-                               defaultValue={`sampler1@insite.com`}
+                               defaultValue={`ba1@verify.com`}
                                placeholder="E-mail Address" returnKeyType="next" />
                     </Item>
                     <Item regular>

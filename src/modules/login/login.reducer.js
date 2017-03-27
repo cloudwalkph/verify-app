@@ -10,7 +10,8 @@ import {
 const initialState = {
     authenticated: false,
     fetching: false,
-    error: false
+    error: false,
+    accessToken: ''
 };
 
 const login = (state = initialState, action) => {
@@ -27,11 +28,12 @@ const login = (state = initialState, action) => {
             });
 
         case DO_LOGIN_SUCCESS:
-            setAuthToken(action.access_token);
+            setAuthToken(action.auth.access_token);
 
             return Object.assign({}, state, {
                 fetching: false,
-                authenticated: true
+                authenticated: true,
+                accessToken: action.auth.access_token
             });
 
         case DO_LOGOUT:

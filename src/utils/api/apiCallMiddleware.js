@@ -10,11 +10,15 @@ export const apiCallMiddleware = ({ dispatch, getState }) => {
             next(action);
 };
 
-export const apiCall = ({ dispatch, url, method = 'get', types, body, originalBody, meta }) => {
+export const apiCall = ({ dispatch, url, method = 'get', types, body, originalBody, meta, getState }) => {
+    let loginState = getState().login;
+
     const opts = {
         method,
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            'accept': 'application/json',
+            'authorization': `Bearer ${loginState.accessToken}`
         },
         body: body && JSON.stringify(body)
     };
@@ -25,6 +29,7 @@ export const apiCall = ({ dispatch, url, method = 'get', types, body, originalBo
 
     return fetch(HOST + url, opts)
         .then(res => {
+            console.log('middleware', res);
             if (!res.ok) {
                 return res.json()
                     .catch(e => ({}))
@@ -60,9 +65,9 @@ export const apiCall = ({ dispatch, url, method = 'get', types, body, originalBo
 
     function onSuccess(data) {
         if (types && types.success) {
-            dispatch({ type: types.success, payload: data.data, meta });
+            dispatch({ type: types.success, payload: data, meta });
         }
-        return data.data;
+        return data;
     }
 };
 

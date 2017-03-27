@@ -17,7 +17,7 @@ export const startSyncLoop = makeSyncLoop(syncEvents);
 
 export const loadEvents = options => {
     return {
-        url: 'events',
+        url: 'ba/events',
         method: 'get',
         meta: {
             ...options
@@ -38,7 +38,7 @@ export const saveEvent = event =>
 
 export const updateEvent = event => {
     return {
-        url: `events/${event.id}`,
+        url: `ba/events/${event.id}`,
         method: 'put',
         body: event,
         types: {
@@ -53,7 +53,7 @@ export const updateEvent = event => {
 export const createEvent = event => {
     const id = event.id || Date.now().toString();
     return {
-        url: 'events',
+        url: 'ba/events',
         method: 'post',
         body: {
             ...event,
@@ -90,7 +90,7 @@ const deleteNewEvent = id => {
 
 const deleteExistingEvent = event => {
     return {
-        url: `events/${event.id}`,
+        url: `ba/events/${event.id}`,
         method: 'put',
         body: {
             ...event,
