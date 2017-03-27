@@ -41,7 +41,7 @@ export const doLoginRemote = (username, password) => (dispatch) => {
         password,
         grant_type: 'password',
         client_id: '2',
-        client_secret: 'RPln2IDBimiaeD1ObutShdV39CvMeABMZCyFKA3M'
+        client_secret: 'loi1pwPVYhmH019NxdJZLkjPuDIKP1WFFMtodONk'
     };
 
     console.log(credentials);
