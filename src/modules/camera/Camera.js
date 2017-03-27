@@ -38,6 +38,7 @@ class Camera extends Component {
                 captureQuality={CameraView.constants.CaptureQuality.medium}
                 style={styles.preview}
                 aspect={CameraView.constants.Aspect.fill}
+                orientation={CameraView.constants.Orientation.portrait}
                 captureTarget={CameraView.constants.CaptureTarget.disk}>
                 <Button transparent bordered light
                     style={{position: 'absolute',
@@ -65,6 +66,7 @@ class Camera extends Component {
     takePicture() {
         this.camera.capture()
             .then((data) => {
+                alert('done');
                 console.log(data);
                 this.setState({ path: data.path })
             })
