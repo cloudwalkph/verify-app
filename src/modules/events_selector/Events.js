@@ -114,6 +114,7 @@ class Events extends Component {
                             style={{ backgroundColor: '#fff',borderColor: '#323332' }}
                             iosHeader="Select one"
                             mode="dialog"
+                            prompt="Select an event"
                             selectedValue={selectedEvent}
                             onValueChange={this._onEventSelected.bind(this)} >
                             {events.map((event, key) => {
@@ -130,6 +131,7 @@ class Events extends Component {
                             disabled={!selectedEvent}
                             iosHeader="Select one"
                             mode="dialog"
+                            prompt="Select a location"
                             selectedValue={selectedLocation}
                             onValueChange={this._onLocationSelected.bind(this)} >
                             {locations.map((location, key) => {
