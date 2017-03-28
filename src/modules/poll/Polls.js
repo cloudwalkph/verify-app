@@ -102,6 +102,7 @@ class Polls extends Component {
         let data = {
             name: this.state.name,
             email: this.state.email,
+            image: this.props.camera.picture,
             contact_number: this.state.contact_number,
             answers: [
                 {
