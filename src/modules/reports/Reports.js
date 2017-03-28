@@ -10,11 +10,10 @@ import {
     Alert
 } from 'react-native';
 
-import { Text, Button, Container, Footer, Content, H3, Segment,
+import { Text, Button, Container, Footer, Content, H3, Segment, Picker, Item,
     FooterTab, Icon, Header, Body, Title, Left, Right, ListItem, Thumbnail } from 'native-base';
 
 import ContextMenu from '../_common/ContextMenu';
-import CameraImg from './images/camera.png';
 
 import { connect } from 'react-redux';
 
@@ -22,81 +21,66 @@ import {
     doLogout
 } from '../login/login.action';
 
+import { getActiveHits } from '../hits/hits.reducer';
+
+import { getActiveEvents } from '../events_selector/events.reducer';
+import { syncEvents } from '../events_selector/events.action';
+
 class Reports extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            selectedEvent: null,
+            selectedLocation: null,
+            locations: [],
+        };
+    }
+
+    async componentWillMount() {
+        // NetInfo.addEventListener('change', (reach) =>
+        //     reach !== 'none' && this.props.onRefresh({silent: true})
+        // );
+
+        this.props.onRefresh({silent: true})
+    }
+
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('change');
+    }
+
+    _onEventSelected = (value) => {
+        const { events } = this.props;
+        let index = events.findIndex((item) => { return item.id === value });
+
+        if (index >= 0) {
+            let selectedEvent = events[index];
+
+            this.setState({
+                selectedEvent: value,
+                selectedLocation: null,
+                locations: selectedEvent.locations
+            });
+        }
+    };
+
+    _onLocationSelected = (value) => {
+        const { locations } = this.state;
+        let index = locations.findIndex((item) => { return item.id === value });
+
+        if (index >= 0) {
+            let selectedLocation = locations[index];
+
+            this.setState({
+                selectedLocation: value
+            });
+        }
+    };
+
     render() {
         const { navigate } = this.props.navigation;
-        sampleReports = [
-            {
-                name: 'Roy Mustang',
-                contact_number: '09121231234',
-                email: 'roy@email.com',
-                gender: 'Male',
-                img: 'robinson.png'
-            },
-            {
-                name: 'Van Hohenheim',
-                contact_number: '09121231235',
-                email: 'van@email.com',
-                gender: 'Male',
-                img: 'robinson.png'
-            },
-            {
-                name: 'Riza Hawkeye',
-                contact_number: '09121231236',
-                email: 'riza@email.com',
-                gender: 'Female',
-                img: 'thompson.png'
-            },
-            {
-                name: 'Alphonse Elric',
-                contact_number: '09121222234',
-                email: 'alelric@email.com',
-                gender: 'Male',
-                img: 'robinson.png'
-            },
-            {
-                name: 'Winry Rockbell',
-                contact_number: '09126831234',
-                email: 'winry@email.com',
-                gender: 'Female',
-                img: 'thompson.png'
-            },
-            {
-                name: 'Izumi Curtis',
-                contact_number: '09121277734',
-                email: 'izumi@email.com',
-                gender: 'Female',
-                img: 'thompson.png'
-            },
-            {
-                name: 'Edward Elric',
-                contact_number: '09126831234',
-                email: 'edelric@email.com',
-                gender: 'Male',
-                img: 'robinson.png'
-            },
-            {
-                name: 'Maes Hughes',
-                contact_number: '09126831234',
-                email: 'maes@email.com',
-                gender: 'Male',
-                img: 'robinson.png'
-            },
-            {
-                name: 'Alex Louis Armstrong',
-                contact_number: '09126831234',
-                email: 'louis@email.com',
-                gender: 'Male',
-                img: 'robinson.png'
-            },
-            {
-                name: 'Olivier Mira Armstrong',
-                contact_number: '09126831234',
-                email: 'mira@email.com',
-                gender: 'Female',
-                img: 'thompson.png'
-            },
-        ];
+        const { events, status, reports } = this.props;
+        const { selectedEvent, selectedLocation, locations } = this.state;
 
         return (
             <Container>
@@ -108,6 +92,40 @@ class Reports extends Component {
 
                 <ScrollView style={styles.container}>
                     <Content>
+                        <View>
+                            <Text style={{color: '#f47f20'}}>Select an Event</Text>
+                            <Picker
+                                style={{ backgroundColor: '#fff',borderColor: '#323332' }}
+                                iosHeader="Select one"
+                                mode="dialog"
+                                prompt="Select an event"
+                                selectedValue={selectedEvent}
+                                onValueChange={this._onEventSelected.bind(this)} >
+                                {events.map((event, key) => {
+                                    return (
+                                        <Item label={event.name} value={event.id} key={key} />
+                                    )
+                                })}
+                            </Picker>
+
+                            <View style={{marginTop: 10}} />
+                            <Text style={{color: '#f47f20'}}>Select location</Text>
+                            <Picker
+                                style={{ backgroundColor: '#fff',borderColor: '#323332' }}
+                                disabled={!selectedEvent}
+                                iosHeader="Select one"
+                                mode="dialog"
+                                prompt="Select a location"
+                                selectedValue={selectedLocation}
+                                onValueChange={this._onLocationSelected.bind(this)} >
+                                {locations.map((location, key) => {
+                                    return (
+                                        <Item label={location.name} value={location.id} key={key} />
+                                    )
+                                })}
+                            </Picker>
+                        </View>
+
                         <H3>Hits:</H3>
                         <Segment>
                             <Button first><Text>Male: 6</Text></Button>
@@ -116,11 +134,11 @@ class Reports extends Component {
                         </Segment>
 
 
-                        {sampleReports.map((report, key) => {
+                        {reports.map((report, key) => {
                             return (
                                 <ListItem avatar key={key}>
                                     <Left>
-                                        <Thumbnail square source={ require('./images/thompson.png') } />
+                                        <Thumbnail square source={report.img ? { isStatic: true, uri: report.img, } : require('./images/thompson.png')} />
                                     </Left>
                                     <Body>
                                     <Text>{report.name}</Text>
@@ -129,8 +147,7 @@ class Reports extends Component {
                                     <Text note>{report.gender}</Text>
                                     </Body>
                                     <Right>
-                                        <Text note>03/21/2017</Text>
-                                        <Text note>1:30 pm</Text>
+                                        <Text note>{report.created_at}</Text>
                                     </Right>
                                 </ListItem>
                             )
@@ -251,10 +268,13 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        login: state.login
+        events: getActiveEvents(state),
+        login: state.login,
+        reports: getActiveHits(state)
     }
 }
 
 export default connect(mapStateToProps, {
-    doLogout
+    onRefresh: syncEvents,
+    doLogout,
 })(Reports);
