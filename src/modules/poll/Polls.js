@@ -13,7 +13,7 @@ import {
 import { connect } from 'react-redux';
 import ContextMenu from '../_common/ContextMenu';
 
-import { Button, Container, Footer, Picker, Item,
+import { Button, Container, Footer, Picker, Item, Toast,
     FooterTab, Icon, Header, Body, Title } from 'native-base';
 
 import { saveHit } from '../hits/hits.actions';
@@ -114,6 +114,20 @@ class Polls extends Component {
                 }
             ]
         };
+
+        Toast.show({
+            text: 'Successfully saved data',
+            position: 'bottom',
+            buttonText: 'Okay'
+        });
+
+        this.setState({
+            selectedAge: 'Below 11',
+            selectedGender: 'Male',
+            name: '',
+            contact_number: '',
+            email: ''
+        });
 
         // console.log(data);
 
@@ -302,7 +316,7 @@ const styles = StyleSheet.create({
         height: null
     },
     img: {
-        width: 100,
+        width: 400,
         height: 150,
     },
     preview: {
