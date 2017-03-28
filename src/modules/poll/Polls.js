@@ -16,6 +16,8 @@ import ContextMenu from '../_common/ContextMenu';
 import { Button, Container, Footer, Picker, Item,
     FooterTab, Icon, Header, Body, Title } from 'native-base';
 
+import { saveHit } from '../hits/hits.actions';
+
 import CameraImg from './camera.png';
 
 import {
@@ -25,7 +27,7 @@ import {
 const ageGroupButtons = [
     {
         label: 'Below 11',
-        value: 'below 11'
+        value: 'Below 11'
     },
     {
         label: '12 - 18',
@@ -49,18 +51,18 @@ const ageGroupButtons = [
     },
     {
         label: '60 Above',
-        value: '60 above'
+        value: '60 Above'
     }
 ];
 
 const genderGroupButtons = [
     {
         label: 'Male',
-        value: 'male'
+        value: 'Male'
     },
     {
         label: 'Female',
-        value: 'female'
+        value: 'Female'
     }
 ];
 
@@ -73,8 +75,11 @@ class Polls extends Component {
         super(props)
 
         this.state = {
-            selectedAge: null,
-            selectedGender: null,
+            selectedAge: 'Below 11',
+            selectedGender: 'Male',
+            name: '',
+            contact_number: '',
+            email: ''
         };
     }
 
@@ -88,6 +93,31 @@ class Polls extends Component {
         this.setState({
             selectedGender: value,
         });
+    };
+
+    _onPressButton = (e) => {
+        const { saveHit } = this.props;
+        const { navigation } = this.props;
+
+        let data = {
+            name: this.state.name,
+            email: this.state.email,
+            contact_number: this.state.contact_number,
+            answers: [
+                {
+                    poll_id: 1,
+                    value: this.state.selectedAge
+                },
+                {
+                    poll_id: 2,
+                    value: this.state.selectedGender
+                }
+            ]
+        };
+
+        console.log(data);
+
+        saveHit(data, navigation.state.params.selectedProject, navigation.state.params.selectedLocation);
     };
 
     render() {
@@ -151,12 +181,16 @@ class Polls extends Component {
                         <Text style={styles.label}>Name</Text>
                         <TextInput style={styles.textInput}
                                    ref="name"
+                                   value={this.state.name}
+                                   onChangeText={(name) => this.setState({name})}
                                    underlineColorAndroid="transparent"
                                    placeholder="Name" returnKeyType="next" />
 
                         <Text style={styles.label}>Contact Number</Text>
                         <TextInput style={styles.textInput}
                                    ref="contact_number"
+                                   value={this.state.contact_number}
+                                   onChangeText={(contact_number) => this.setState({contact_number})}
                                    underlineColorAndroid="transparent"
                                    placeholder="Contact Number" returnKeyType="next" />
 
@@ -164,6 +198,8 @@ class Polls extends Component {
                         <TextInput keyboardType="email-address"
                                    style={styles.textInput}
                                    ref="email"
+                                   value={this.state.email}
+                                   onChangeText={(email) => this.setState({email})}
                                    underlineColorAndroid="transparent"
                                    placeholder="Email Address" returnKeyType="done" />
 
@@ -288,11 +324,13 @@ function mapStateToProps(state) {
     return {
         events: state.events,
         camera: state.camera,
-        login: state.login
+        login: state.login,
+        hits: state.hits
     }
 }
 
 
 export default connect(mapStateToProps, {
-    doLogout
+    doLogout,
+    saveHit
 })(Polls);

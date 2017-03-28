@@ -32,7 +32,7 @@ class Events extends Component {
         };
     }
 
-    componentWillMount() {
+    async componentWillMount() {
         // NetInfo.addEventListener('change', (reach) =>
         //     reach !== 'none' && this.props.onRefresh({silent: true})
         // );

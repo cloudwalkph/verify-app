@@ -3,6 +3,7 @@ import status from './modules/_common/status.reducer';
 import login from './modules/login/login.reducer';
 import events from './modules/events_selector/events.reducer';
 import camera from './modules/camera/camera.reducer';
+import hits from './modules/hits/hits.reducer';
 // import polls from './modules/poll/polls.reducer';
 
 import AppNavigator from './routes';
@@ -16,6 +17,7 @@ export default combineReducers({
     nav: navReducer,
     login,
     events,
-    camera
+    camera,
+    hits
     // polls
 });
