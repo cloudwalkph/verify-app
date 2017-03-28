@@ -67,7 +67,7 @@ class Camera extends Component {
         this.camera.capture()
             .then((data) => {
                 // alert('done');
-                console.log(data);
+                // console.log(data);
                 this.setState({ path: data.path })
             })
             .catch(err => console.error(err));

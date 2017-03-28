@@ -29,7 +29,7 @@ export const apiCall = ({ dispatch, url, method = 'get', types, body, originalBo
 
     return fetch(HOST + url, opts)
         .then(res => {
-            console.log('middleware', res);
+            // console.log('middleware', res);
             if (!res.ok) {
                 return res.json()
                     .catch(e => ({}))
@@ -48,7 +48,7 @@ export const apiCall = ({ dispatch, url, method = 'get', types, body, originalBo
         if ((error instanceof NetworkError) || error.status >= 500) {
             return onNoConnection(error);
         }
-        console.log(url, error);
+        // console.log(url, error);
 
         if (types && types.error) {
             dispatch({ type: types.error, payload: originalBody, meta, url, error });

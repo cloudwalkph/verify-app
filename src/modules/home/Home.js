@@ -5,7 +5,7 @@ import ContextMenu from '../_common/ContextMenu';
 
 class Home extends Component {
     render() {
-        console.log(this.props);
+        // console.log(this.props);
         return (
             <View style={{alignItems: 'center'}}>
                 <Text>Hello world</Text>

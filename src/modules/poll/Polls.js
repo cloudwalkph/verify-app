@@ -115,7 +115,7 @@ class Polls extends Component {
             ]
         };
 
-        console.log(data);
+        // console.log(data);
 
         saveHit(data, navigation.state.params.selectedProject, navigation.state.params.selectedLocation);
     };

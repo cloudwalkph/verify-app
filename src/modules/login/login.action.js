@@ -44,7 +44,7 @@ export const doLoginRemote = (username, password) => (dispatch) => {
         client_secret: 'loi1pwPVYhmH019NxdJZLkjPuDIKP1WFFMtodONk'
     };
 
-    console.log(credentials);
+    // console.log(credentials);
 
     let options = Object.assign({ method: 'POST' }, { body: JSON.stringify(credentials) }, {
         headers: {
@@ -64,7 +64,7 @@ export const doLoginRemote = (username, password) => (dispatch) => {
         });
 
     }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         dispatch(doLoginFailed());
     })
 };
