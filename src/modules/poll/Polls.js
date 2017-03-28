@@ -115,6 +115,10 @@ class Polls extends Component {
             ]
         };
 
+        // console.log(data);
+
+        saveHit(data, navigation.state.params.selectedProject, navigation.state.params.selectedLocation);
+
         Toast.show({
             text: 'Successfully saved data',
             position: 'bottom',
@@ -128,10 +132,6 @@ class Polls extends Component {
             contact_number: '',
             email: ''
         });
-
-        // console.log(data);
-
-        saveHit(data, navigation.state.params.selectedProject, navigation.state.params.selectedLocation);
     };
 
     render() {
