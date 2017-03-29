@@ -1,5 +1,3 @@
-import { setAuthToken, deleteAuthToken } from '../../utils/token';
-
 import {
     TAKE_PICTURE,
     CLEAR_PICTURE
@@ -17,7 +15,6 @@ const camera = (state = initialState, action) => {
             });
 
         case CLEAR_PICTURE:
-            setAuthToken(action.access_token);
 
             return Object.assign({}, state, {
                 picture: null

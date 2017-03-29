@@ -17,6 +17,7 @@ import { Button, Container, Footer, Picker, Item, Toast,
     FooterTab, Icon, Header, Body, Title } from 'native-base';
 
 import { saveHit } from '../hits/hits.actions';
+import { clearPicture } from '../camera/camera.action';
 
 import CameraImg from './camera.png';
 
@@ -118,21 +119,31 @@ class Polls extends Component {
 
         // console.log(data);
 
-        saveHit(data, navigation.state.params.selectedProject, navigation.state.params.selectedLocation);
+        try {
+            saveHit(data, navigation.state.params.selectedProject, navigation.state.params.selectedLocation);
 
-        Toast.show({
-            text: 'Successfully saved data',
-            position: 'bottom',
-            buttonText: 'Okay'
-        });
+            Toast.show({
+                text: 'Successfully saved data',
+                position: 'bottom',
+                buttonText: 'Okay'
+            });
 
-        this.setState({
-            selectedAge: 'Below 11',
-            selectedGender: 'Male',
-            name: '',
-            contact_number: '',
-            email: ''
-        });
+            this.setState({
+                selectedAge: 'Below 11',
+                selectedGender: 'Male',
+                name: '',
+                contact_number: '',
+                email: ''
+            }, () => {
+                this.props.clearPicture();
+            });
+
+        } catch (e) {
+            console.log(e);
+
+            alert('The selected project was missing from this hit, therefore I have to push you back');
+            navigation.navigate('Home');
+        }
     };
 
     render() {
@@ -151,10 +162,10 @@ class Polls extends Component {
                 </Header>
 
                 <ScrollView style={styles.container}>
-                    <View style={styles.imgContainer}>
+                    <View style={camera.picture ? styles.imgContainer : styles.imgContainer2}>
                         <TouchableHighlight onPress={() => navigate('Camera') }>
                             <Image source={camera.picture ? { isStatic: true, uri: camera.picture, } : CameraImg} resizeMode="contain"
-                                   style={styles.img} />
+                                   style={camera.picture ? styles.img : styles.img2} />
                         </TouchableHighlight>
                     </View>
 
@@ -313,11 +324,24 @@ const styles = StyleSheet.create({
     },
     imgContainer: {
         flex: 1,
+        alignItems: 'stretch',
+        justifyContent: 'center',
+        height: null,
+    },
+    imgContainer2: {
+        flex: 1,
         alignItems: 'center',
-        height: null
+        justifyContent: 'center',
+        height: null,
+    },
+    img2: {
+        width: 150,
+        height: 150,
     },
     img: {
-        width: 400,
+        // width: 150,
+        flex: 1,
+        resizeMode: 'cover',
         height: 150,
     },
     preview: {
@@ -347,5 +371,6 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
     doLogout,
-    saveHit
+    saveHit,
+    clearPicture
 })(Polls);
