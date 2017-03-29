@@ -44,8 +44,6 @@ class Events extends Component {
             locations: this.props.events[0].locations
         });
 
-        console.log(this.state.selectedLocation)
-
         this.props.onRefresh({silent: true})
     }
 
@@ -85,7 +83,6 @@ class Events extends Component {
         const { navigation } = this.props;
         const { selectedEvent, selectedLocation } = this.state;
 
-        console.log(selectedLocation);
         if (! selectedEvent) {
             return false;
         }
