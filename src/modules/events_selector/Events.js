@@ -6,7 +6,8 @@ import {
     StyleSheet,
     StatusBar,
     NetInfo,
-    Alert
+    Alert,
+    AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
 import ContextMenu from '../_common/ContextMenu';
@@ -14,6 +15,7 @@ import ContextMenu from '../_common/ContextMenu';
 import { Picker, Item, Text, Button, Container, Footer,
     FooterTab, Icon, Header, Body, Title, Left, Right } from 'native-base';
 
+import store from 'react-native-simple-store';
 import { getActiveEvents } from './events.reducer';
 import { syncEvents } from './events.action';
 
@@ -36,6 +38,13 @@ class Events extends Component {
         // NetInfo.addEventListener('change', (reach) =>
         //     reach !== 'none' && this.props.onRefresh({silent: true})
         // );
+        this.setState({
+            selectedEvent: this.props.events[0].id,
+            selectedLocation: this.props.events[0].locations[0].id,
+            locations: this.props.events[0].locations
+        });
+
+        console.log(this.state.selectedLocation)
 
         this.props.onRefresh({silent: true})
     }
@@ -53,7 +62,7 @@ class Events extends Component {
 
             this.setState({
                 selectedEvent: value,
-                selectedLocation: null,
+                selectedLocation: selectedEvent.locations[0].id,
                 locations: selectedEvent.locations
             });
         }
@@ -76,6 +85,7 @@ class Events extends Component {
         const { navigation } = this.props;
         const { selectedEvent, selectedLocation } = this.state;
 
+        console.log(selectedLocation);
         if (! selectedEvent) {
             return false;
         }
