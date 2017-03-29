@@ -11,11 +11,11 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import ContextMenu from '../_common/ContextMenu';
+import LoaderButton from '../_common/LoaderButton';
 
 import { Picker, Item, Text, Button, Container, Footer,
     FooterTab, Icon, Header, Body, Title, Left, Right } from 'native-base';
 
-import store from 'react-native-simple-store';
 import { getActiveEvents } from './events.reducer';
 import { syncEvents } from './events.action';
 
@@ -27,28 +27,51 @@ class Events extends Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-            selectedEvent: null,
-            selectedLocation: null,
-            locations: [],
-        };
+        if (this.props.events.length) {
+            this.state = {
+                selectedEvent: this.props.events[0].id,
+                selectedLocation: this.props.events[0].locations[0].id,
+                locations: this.props.events[0].locations,
+            };
+        } else {
+            this.state = {
+                selectedEvent: null,
+                selectedLocation: null,
+                locations: [],
+            };
+        }
+
     }
 
     async componentWillMount() {
-        // NetInfo.addEventListener('change', (reach) =>
-        //     reach !== 'none' && this.props.onRefresh({silent: true})
-        // );
-        this.setState({
-            selectedEvent: this.props.events[0].id,
-            selectedLocation: this.props.events[0].locations[0].id,
-            locations: this.props.events[0].locations
-        });
+        NetInfo.addEventListener('change', (reach) =>
+            reach !== 'none' && this.props.onRefresh({silent: true})
+        );
 
-        this.props.onRefresh({silent: true})
+        if (! this.props.events.length) {
+            NetInfo.isConnected.fetch().then(isConnected => {
+                if (! isConnected) {
+                    alert('You are not connected to the internet');
+                }
+
+                this.props.onRefresh({silend: true});
+            });
+        }
+        // this.props.onRefresh({silent: true})
     }
 
     componentWillUnmount() {
         NetInfo.isConnected.removeEventListener('change');
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (! nextProps.status.refreshing && nextProps.events.length) {
+            this.setState({
+                selectedEvent: nextProps.events[0].id,
+                selectedLocation: nextProps.events[0].locations[0].id,
+                locations: nextProps.events[0].locations,
+            })
+        }
     }
 
     _onEventSelected = (value) => {
@@ -149,9 +172,17 @@ class Events extends Component {
                         </Picker>
 
                         <View style={{marginTop: 20}}>
-                            <Button primary block onPress={this._onPressButton}>
-                                <Text style={{fontSize: 15}}>Go to Poll</Text>
-                            </Button>
+                            <LoaderButton
+                                isLoading={false}
+                                buttonProps={
+                                {
+                                    primary: true,
+                                    block: true
+                                }
+                            }
+                                text="Go to Poll"
+                                onPress={this._onPressButton}
+                            />
                         </View>
 
                     </View>

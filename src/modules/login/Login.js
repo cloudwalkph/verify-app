@@ -3,9 +3,11 @@ import {
     View,
     StyleSheet,
     StatusBar,
-    Image
+    Image,
+    NetInfo
 } from 'react-native';
 import { connect } from 'react-redux';
+import LoaderButton from '../_common/LoaderButton';
 
 import { Button, Text, Item, Input, Icon } from 'native-base';
 
@@ -40,6 +42,8 @@ class Login extends Component {
     }
 
     render() {
+        const { login } = this.props;
+
         return (
             <View style={styles.container}>
                 <StatusBar
@@ -75,9 +79,17 @@ class Login extends Component {
                                returnKeyType="done" secureTextEntry={true} />
                     </Item>
                     <View style={{marginTop: 20}}>
-                        <Button primary block onPress={this._onPressButton}>
-                            <Text style={{fontSize: 15}}>Sign In</Text>
-                        </Button>
+                        <LoaderButton
+                            isLoading={login.fetching}
+                            buttonProps={
+                                {
+                                    primary: true,
+                                    block: true
+                                }
+                            }
+                            text="Sign In"
+                            onPress={this._onPressButton}
+                            />
                     </View>
                 </View>
 

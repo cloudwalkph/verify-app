@@ -24,7 +24,6 @@ import {
 import { getActiveHits } from '../hits/hits.reducer';
 
 import { getActiveEvents } from '../events_selector/events.reducer';
-import { syncEvents } from '../events_selector/events.action';
 
 class Reports extends Component {
     constructor(props) {
@@ -35,18 +34,6 @@ class Reports extends Component {
             selectedLocation: null,
             locations: [],
         };
-    }
-
-    async componentWillMount() {
-        // NetInfo.addEventListener('change', (reach) =>
-        //     reach !== 'none' && this.props.onRefresh({silent: true})
-        // );
-
-        this.props.onRefresh({silent: true})
-    }
-
-    componentWillUnmount() {
-        NetInfo.isConnected.removeEventListener('change');
     }
 
     _onEventSelected = (value) => {
@@ -269,12 +256,10 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
     return {
         events: getActiveEvents(state),
-        login: state.login,
         reports: getActiveHits(state)
     }
 }
 
 export default connect(mapStateToProps, {
-    onRefresh: syncEvents,
     doLogout,
 })(Reports);
