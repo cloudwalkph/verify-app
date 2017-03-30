@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux';
 import ContextMenu from '../_common/ContextMenu';
 import LoaderButton from '../_common/LoaderButton';
+import isEqual from 'lodash/isEqual';
 
 import { Picker, Item, Text, Button, Container, Footer,
     FooterTab, Icon, Header, Body, Title, Left, Right } from 'native-base';
@@ -48,16 +49,14 @@ class Events extends Component {
             reach !== 'none' && this.props.onRefresh({silent: true})
         );
 
-        if (! this.props.events.length) {
-            NetInfo.isConnected.fetch().then(isConnected => {
-                if (! isConnected) {
-                    alert('You are not connected to the internet');
-                }
 
-                this.props.onRefresh({silend: true});
-            });
-        }
         // this.props.onRefresh({silent: true})
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (isEqual(this.props.events, nextProps.events)) {
+            return false;
+        }
     }
 
     componentWillUnmount() {
@@ -182,6 +181,20 @@ class Events extends Component {
                             }
                                 text="Go to Poll"
                                 onPress={this._onPressButton}
+                            />
+                        </View>
+
+                        <View style={{marginTop: 20}}>
+                            <LoaderButton
+                                isLoading={false}
+                                buttonProps={
+                                    {
+                                        primary: true,
+                                        block: true
+                                    }
+                                }
+                                text="Sync Events From Server"
+                                onPress={() => this.props.onRefresh()}
                             />
                         </View>
 

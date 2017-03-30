@@ -98,12 +98,13 @@ class Polls extends Component {
 
     _onPressButton = (e) => {
         const { saveHit } = this.props;
-        const { navigation } = this.props;
+        const { navigation, camera } = this.props;
 
         let data = {
             name: this.state.name,
             email: this.state.email,
-            image: this.props.camera.picture,
+            // image: `data:image/jpeg;base64,${camera.picture}`,
+            image: camera.picture,
             contact_number: this.state.contact_number,
             answers: [
                 {
@@ -146,6 +147,18 @@ class Polls extends Component {
         }
     };
 
+    _onClear = () => {
+        this.setState({
+            selectedAge: 'Below 11',
+            selectedGender: 'Male',
+            name: '',
+            contact_number: '',
+            email: ''
+        }, () => {
+            this.props.clearPicture();
+        });
+    };
+
     render() {
         const { navigate } = this.props.navigation;
         const { camera } = this.props;
@@ -164,7 +177,7 @@ class Polls extends Component {
                 <ScrollView style={styles.container}>
                     <View style={styles.imgContainer}>
                         <TouchableHighlight onPress={() => navigate('Camera') }>
-                            <Image source={camera.picture ? { isStatic: true, uri: camera.picture, } : CameraImg} resizeMode="contain"
+                            <Image source={camera.picture ? { uri: `data:image/jpeg;base64,${camera.picture}` } : CameraImg}
                                    style={styles.img} />
                         </TouchableHighlight>
                     </View>
@@ -233,6 +246,12 @@ class Polls extends Component {
 
                         <Button block primary onPress={this._onPressButton}>
                             <Text style={styles.btnText}>Save Answer</Text>
+                        </Button>
+
+                        <Button block danger
+                                style={{marginTop: 20}}
+                                onPress={this._onClear}>
+                            <Text style={styles.btnText}>Reset Fields</Text>
                         </Button>
                     </View>
                 </ScrollView>

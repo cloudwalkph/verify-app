@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { StyleSheet, TouchableHighlight, Text, Dimensions, View, Image } from 'react-native';
 import CameraView from 'react-native-camera';
 import { Icon, Button } from 'native-base';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 import { takePicture, clearPicture } from './camera.action';
 
@@ -15,10 +16,16 @@ class Camera extends Component {
         };
     }
 
-    _goBack = () => {
-        const { navigate } = this.props.navigation;
+    componentWillUnmount() {
+        this.setState({
+            path: null
+        });
+    }
 
-        navigate('Polls');
+    _goBack = () => {
+        const { goBack } = this.props.navigation;
+
+        goBack();
         this.props.clearPicture();
     };
 
@@ -64,11 +71,16 @@ class Camera extends Component {
     }
 
     takePicture() {
+        // let data = await this.camera.capture();
+        // let path = await RNFetchBlob.fs.readFile(data.path, 'base64');
+        //
+        // this.setState({ path });
         this.camera.capture()
             .then((data) => {
                 // alert('done');
-                // console.log(data);
-                this.setState({ path: data.path })
+                RNFetchBlob.fs.readFile(data.path, 'base64').then((path) => {
+                    this.setState({ path });
+                });
             })
             .catch(err => console.error(err));
     }
@@ -77,7 +89,7 @@ class Camera extends Component {
         return (
             <View>
                 <Image
-                    source={{ uri: this.state.path }}
+                    source={{ uri: `data:image/jpeg;base64,${this.state.path}` }}
                     style={styles.preview}
                 />
                 <Button primary
