@@ -162,10 +162,10 @@ class Polls extends Component {
                 </Header>
 
                 <ScrollView style={styles.container}>
-                    <View style={camera.picture ? styles.imgContainer : styles.imgContainer2}>
+                    <View style={styles.imgContainer}>
                         <TouchableHighlight onPress={() => navigate('Camera') }>
                             <Image source={camera.picture ? { isStatic: true, uri: camera.picture, } : CameraImg} resizeMode="contain"
-                                   style={camera.picture ? styles.img : styles.img2} />
+                                   style={styles.img} />
                         </TouchableHighlight>
                     </View>
 
@@ -218,6 +218,8 @@ class Polls extends Component {
                                    value={this.state.contact_number}
                                    onChangeText={(contact_number) => this.setState({contact_number})}
                                    underlineColorAndroid="transparent"
+                                   keyboardType="phone-pad"
+                                   maxLength={11}
                                    placeholder="Contact Number" returnKeyType="next" />
 
                         <Text style={styles.label}>Email Address</Text>
@@ -324,24 +326,12 @@ const styles = StyleSheet.create({
     },
     imgContainer: {
         flex: 1,
-        alignItems: 'stretch',
-        justifyContent: 'center',
-        height: null,
-    },
-    imgContainer2: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         height: null,
     },
-    img2: {
-        width: 150,
-        height: 150,
-    },
     img: {
-        // width: 150,
-        flex: 1,
-        resizeMode: 'cover',
+        width: 150,
         height: 150,
     },
     preview: {
