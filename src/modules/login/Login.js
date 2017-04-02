@@ -12,7 +12,8 @@ import LoaderButton from '../_common/LoaderButton';
 import { Button, Text, Item, Input, Icon } from 'native-base';
 
 import {
-    doLoginRemote
+    doLoginRemote,
+    doLoginFailed
 } from './login.action';
 
 import VerifyLogo from './logo-verify.png';
@@ -34,7 +35,11 @@ class Login extends Component {
     };
 
     componentDidMount() {
-        const { login, navigation } = this.props;
+        const { login, navigation, doLoginFailed } = this.props;
+
+        if (login.fetching) {
+            doLoginFailed();
+        }
 
         if (login.authenticated) {
             navigation.navigate('Events');
@@ -139,5 +144,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-    doLoginRemote
+    doLoginRemote,
+    doLoginFailed
 })(Login);

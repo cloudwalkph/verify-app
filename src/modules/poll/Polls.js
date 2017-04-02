@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import ContextMenu from '../_common/ContextMenu';
+import LoaderButton from '../_common/LoaderButton';
 
 import { Button, Container, Footer, Picker, Item, Toast,
     FooterTab, Icon, Header, Body, Title } from 'native-base';
@@ -173,6 +174,19 @@ class Polls extends Component {
         });
     };
 
+    _onSync = () => {
+        const { navigation } = this.props;
+        let locationId = navigation.state.params.selectedLocation;
+
+        NetInfo.isConnected.fetch().then(isConnected => {
+            if (! isConnected) {
+                alert('You are not connected to the internet');
+            }
+
+            this.props.syncHits({silent: true }, locationId)
+        });
+    };
+
     render() {
         const { navigate } = this.props.navigation;
         const { camera } = this.props;
@@ -260,6 +274,12 @@ class Polls extends Component {
 
                         <Button block primary onPress={this._onPressButton}>
                             <Text style={styles.btnText}>Save Answer</Text>
+                        </Button>
+
+                        <Button block success
+                                style={{marginTop: 20}}
+                                onPress={this._onSync}>
+                            <Text style={styles.btnText}>Synchronize Hits</Text>
                         </Button>
 
                         <Button block danger
