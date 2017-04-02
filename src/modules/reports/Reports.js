@@ -123,10 +123,8 @@ class Reports extends Component {
 
                         {reports.map((report, key) => {
                             return (
-                                <ListItem avatar key={key}>
-                                    <Left>
-                                        <Thumbnail square source={report.img ? { isStatic: true, uri: report.img, } : require('./images/thompson.png')} />
-                                    </Left>
+                                <ListItem key={key}>
+
                                     <Body>
                                     <Text>{report.name}</Text>
                                     <Text note>{report.email}</Text>

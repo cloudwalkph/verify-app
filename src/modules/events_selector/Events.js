@@ -54,9 +54,15 @@ class Events extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        if (! isEqual(nextState, this.state)) {
+            return true;
+        }
+
         if (isEqual(this.props.events, nextProps.events)) {
             return false;
         }
+
+        return true;
     }
 
     componentWillUnmount() {

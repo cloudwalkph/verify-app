@@ -89,9 +89,6 @@ class Polls extends Component {
         NetInfo.addEventListener('change', (reach) =>
             reach !== 'none' && this.props.syncHits({silent: true})
         );
-
-
-        // this.props.onRefresh({silent: true})
     }
 
     componentWillUnmount() {
