@@ -3,21 +3,21 @@ import constFactory from '../../factories/const';
 
 export const types = constFactory('hit');
 
-export const syncHits = (options) => {
+export const syncHits = (options, locationId) => {
     return (dispatch, getState) => {
 
-        return dispatch()
+        return dispatch(loadHits(options, locationId))
             .then(() => {
                 const itemsToSync = getState().hits.items.filter(isNotSync);
-                return Promise.all(itemsToSync.map(item => dispatch(saveHit(item))));
+                return Promise.all(itemsToSync.map(item => dispatch(saveHit(item, 0, locationId))));
             });
     }
 };
 export const startSyncLoop = makeSyncLoop(syncHits);
 
-export const loadHits = options => {
+export const loadHits = (options, locationId) => {
     return {
-        url: 'ba/hits',
+        url: `ba/locations/${locationId}/hits`,
         method: 'get',
         meta: {
             ...options

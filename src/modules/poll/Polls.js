@@ -86,8 +86,11 @@ class Polls extends Component {
     }
 
     async componentWillMount() {
+        const { navigation, camera } = this.props;
+        let locationId = navigation.state.params.selectedLocation;
+
         NetInfo.addEventListener('change', (reach) =>
-            reach !== 'none' && this.props.syncHits({silent: true})
+            reach !== 'none' && this.props.syncHits({silent: true }, locationId)
         );
     }
 
