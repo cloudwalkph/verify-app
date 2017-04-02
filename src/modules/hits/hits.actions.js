@@ -6,7 +6,7 @@ export const types = constFactory('hit');
 export const syncHits = (options) => {
     return (dispatch, getState) => {
 
-        return dispatch(loadHits(options))
+        return dispatch()
             .then(() => {
                 const itemsToSync = getState().hits.items.filter(isNotSync);
                 return Promise.all(itemsToSync.map(item => dispatch(saveHit(item))));

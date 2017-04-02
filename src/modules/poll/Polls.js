@@ -8,7 +8,8 @@ import {
     StyleSheet,
     StatusBar,
     ScrollView,
-    Alert
+    Alert,
+    NetInfo
 } from 'react-native';
 import { connect } from 'react-redux';
 import ContextMenu from '../_common/ContextMenu';
@@ -16,7 +17,7 @@ import ContextMenu from '../_common/ContextMenu';
 import { Button, Container, Footer, Picker, Item, Toast,
     FooterTab, Icon, Header, Body, Title } from 'native-base';
 
-import { saveHit } from '../hits/hits.actions';
+import { saveHit, syncHits } from '../hits/hits.actions';
 import { clearPicture } from '../camera/camera.action';
 
 import CameraImg from './camera.png';
@@ -82,6 +83,19 @@ class Polls extends Component {
             contact_number: '',
             email: ''
         };
+    }
+
+    async componentWillMount() {
+        NetInfo.addEventListener('change', (reach) =>
+            reach !== 'none' && this.props.syncHits({silent: true})
+        );
+
+
+        // this.props.onRefresh({silent: true})
+    }
+
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('change');
     }
 
     _onAgeSelected = (value) => {
@@ -381,5 +395,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
     doLogout,
     saveHit,
-    clearPicture
+    clearPicture,
+    syncHits
 })(Polls);
