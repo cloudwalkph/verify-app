@@ -114,12 +114,7 @@ class Reports extends Component {
                         </View>
 
                         <H3>Hits:</H3>
-                        <Segment>
-                            <Button first><Text>Male: 6</Text></Button>
-                            <Button><Text>Female: 4</Text></Button>
-                            <Button last><Text>Total: 10</Text></Button>
-                        </Segment>
-
+                        <Text>Total: {reports.length}</Text>
 
                         {reports.map((report, key) => {
                             return (
