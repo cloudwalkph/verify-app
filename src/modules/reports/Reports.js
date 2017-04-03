@@ -14,8 +14,8 @@ import { Text, Button, Container, Footer, Content, H3, Segment, Picker, Item,
     FooterTab, Icon, Header, Body, Title, Left, Right, ListItem, Thumbnail } from 'native-base';
 
 import ContextMenu from '../_common/ContextMenu';
-
 import { connect } from 'react-redux';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 import {
     doLogout
@@ -69,6 +69,8 @@ class Reports extends Component {
         const { events, status, reports } = this.props;
         const { selectedEvent, selectedLocation, locations } = this.state;
 
+        console.log(reports);
+
         return (
             <Container>
                 <Header>
@@ -118,7 +120,10 @@ class Reports extends Component {
 
                         {reports.map((report, key) => {
                             return (
-                                <ListItem key={key}>
+                                <ListItem avatar key={key}>
+                                    <Left>
+                                        <Thumbnail square source={{ isStatic: true, uri: `data:image/jpeg;base64,${report.image}` }} />
+                                    </Left>
 
                                     <Body>
                                     <Text>{report.name}</Text>
