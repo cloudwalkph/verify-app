@@ -123,7 +123,6 @@ class Polls extends Component {
             email: this.state.email,
             // image: camera.picture ? `data:image/jpeg;base64,${camera.picture}` : '',
             image: camera.picture,
-            localImage: camera.picture,
             contact_number: this.state.contact_number,
             answers: [
                 {

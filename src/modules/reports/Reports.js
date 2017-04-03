@@ -131,7 +131,7 @@ class Reports extends Component {
                             return (
                                 <ListItem avatar key={key}>
                                     <Left>
-                                        <Thumbnail square source={{ isStatic: true, uri: `${report.localImage}` }} />
+                                        <Thumbnail square source={{ isStatic: true, uri: `${report.image}` }} />
                                     </Left>
 
                                     <Body>
