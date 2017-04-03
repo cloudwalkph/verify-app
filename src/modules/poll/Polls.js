@@ -235,7 +235,7 @@ class Polls extends Component {
                 <ScrollView style={styles.container}>
                     <View style={styles.imgContainer}>
                         <TouchableHighlight onPress={() => navigate('Camera') }>
-                            <Image source={camera.picture ? { uri: `data:image/jpeg;base64,${camera.picture}` } : CameraImg}
+                            <Image source={camera.picture ? { uri: `${camera.picture}` } : CameraImg}
                                    style={styles.img} />
                         </TouchableHighlight>
                     </View>

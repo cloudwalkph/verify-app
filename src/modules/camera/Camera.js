@@ -88,7 +88,7 @@ class Camera extends Component {
         return (
             <View>
                 <Image
-                    source={{ uri: `data:image/jpeg;base64,${this.state.path}` }}
+                    source={{ uri: `${this.state.path}` }}
                     style={styles.preview}
                 />
                 <Button primary
