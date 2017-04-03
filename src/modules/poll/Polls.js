@@ -195,25 +195,44 @@ class Polls extends Component {
     _syncImages = () => {
         alert('Syncing Images');
 
-        for (let hit of this.props.hits.items) {
-            this.setState({ syncingImages: true });
+        this.setState({ syncingImages: true });
 
+        let hits = this.props.hits.items;
+
+        Promise.all(hits.map((hit) => {
             let url = `${Config.API_URL}ba/hits/${hit.id}`;
-            console.log('url', url);
-            console.log(hit.image);
 
-            RNFetchBlob.fetch('POST', url, {
+            return RNFetchBlob.fetch('POST', url, {
                 Authorization : `Bearer ${this.props.login.accessToken}`,
                 'Content-Type' : 'multipart/form-data',
 
             }, [
                 { name: 'image', type: 'image/jpg', filename : 'hit-image.png', data: RNFetchBlob.wrap(hit.image)},
                 { name: 'hit_id', data: hit.id.toString() }
-            ]).then((res) => {
-                console.log('image sync', res);
-                this.setState({ syncingImages: false });
-            })
-        }
+            ]);
+        })).then(values => {
+            this.setState({syncingImages: false});
+
+            console.log('done', values)
+        }).catch(err => console.log('Catch', err));
+
+        // for (let hit of this.props.hits.items) {
+        //     this.setState({ syncingImages: true });
+        //
+        //     let url = `${Config.API_URL}ba/hits/${hit.id}`;
+        //
+        //     RNFetchBlob.fetch('POST', url, {
+        //         Authorization : `Bearer ${this.props.login.accessToken}`,
+        //         'Content-Type' : 'multipart/form-data',
+        //
+        //     }, [
+        //         { name: 'image', type: 'image/jpg', filename : 'hit-image.png', data: RNFetchBlob.wrap(hit.image)},
+        //         { name: 'hit_id', data: hit.id.toString() }
+        //     ]).then((res) => {
+        //         console.log('image sync', res);
+        //         this.setState({ syncingImages: false });
+        //     })
+        // }
     };
 
     render() {

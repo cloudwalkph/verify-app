@@ -78,8 +78,6 @@ class Reports extends Component {
         const { events, status, reports } = this.props;
         const { selectedEvent, selectedLocation, locations } = this.state;
 
-        console.log(reports);
-
         return (
             <Container>
                 <Header>
