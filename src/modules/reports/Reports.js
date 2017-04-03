@@ -16,6 +16,7 @@ import { Text, Button, Container, Footer, Content, H3, Segment, Picker, Item,
 import ContextMenu from '../_common/ContextMenu';
 import { connect } from 'react-redux';
 import RNFetchBlob from 'react-native-fetch-blob';
+import isEqual from 'lodash/isEqual';
 
 import {
     doLogout
@@ -63,6 +64,14 @@ class Reports extends Component {
             });
         }
     };
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (isEqual(this.props, nextProps)) {
+            return false;
+        }
+
+        return true;
+    }
 
     render() {
         const { navigate } = this.props.navigation;
@@ -122,7 +131,7 @@ class Reports extends Component {
                             return (
                                 <ListItem avatar key={key}>
                                     <Left>
-                                        <Thumbnail square source={{ isStatic: true, uri: `data:image/jpeg;base64,${report.image}` }} />
+                                        <Thumbnail square source={{ isStatic: true, uri: `${report.image}` }} />
                                     </Left>
 
                                     <Body>

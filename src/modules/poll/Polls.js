@@ -14,6 +14,8 @@ import {
 import { connect } from 'react-redux';
 import ContextMenu from '../_common/ContextMenu';
 import LoaderButton from '../_common/LoaderButton';
+import RNFetchBlob from 'react-native-fetch-blob';
+import Config from 'react-native-config';
 
 import { Button, Container, Footer, Picker, Item, Toast,
     FooterTab, Icon, Header, Body, Title } from 'native-base';
@@ -82,7 +84,8 @@ class Polls extends Component {
             selectedGender: 'Male',
             name: '',
             contact_number: '',
-            email: ''
+            email: '',
+            syncingImages: false
         };
     }
 
@@ -118,8 +121,8 @@ class Polls extends Component {
         let data = {
             name: this.state.name,
             email: this.state.email,
-            image: camera.picture ? `data:image/jpeg;base64,${camera.picture}` : '',
-            // image: camera.picture,
+            // image: camera.picture ? `data:image/jpeg;base64,${camera.picture}` : '',
+            image: camera.picture,
             contact_number: this.state.contact_number,
             answers: [
                 {
@@ -178,13 +181,39 @@ class Polls extends Component {
         const { navigation } = this.props;
         let locationId = navigation.state.params.selectedLocation;
 
+        alert('Syncing Hits');
+
         NetInfo.isConnected.fetch().then(isConnected => {
             if (! isConnected) {
                 alert('You are not connected to the internet');
             }
 
-            this.props.syncHits({silent: true }, locationId)
+            this.props.syncHits({silent: true}, locationId);
         });
+    };
+
+    _syncImages = () => {
+        alert('Syncing Images');
+
+        for (let hit of this.props.hits.items) {
+            this.setState({ syncingImages: true });
+
+            let url = `${Config.API_URL}ba/hits/${hit.id}`;
+            console.log('url', url);
+            console.log(hit.image);
+
+            RNFetchBlob.fetch('POST', url, {
+                Authorization : `Bearer ${this.props.login.accessToken}`,
+                'Content-Type' : 'multipart/form-data',
+
+            }, [
+                { name: 'image', type: 'image/jpg', filename : 'hit-image.png', data: RNFetchBlob.wrap(hit.image)},
+                { name: 'hit_id', data: hit.id.toString() }
+            ]).then((res) => {
+                console.log('image sync', res);
+                this.setState({ syncingImages: false });
+            })
+        }
     };
 
     render() {
@@ -281,6 +310,17 @@ class Polls extends Component {
                                 onPress={this._onSync}>
                             <Text style={styles.btnText}>Synchronize Hits</Text>
                         </Button>
+                        
+                        <LoaderButton onPress={this._syncImages}
+                                      isLoading={this.state.syncingImages}
+                                      buttonProps={
+                                          {
+                                              success: true,
+                                              block: true,
+                                              style: {marginTop: 20}
+                                          }
+                                      }
+                                      text="Synchronize Images"/>
 
                         <Button block danger
                                 style={{marginTop: 20}}
@@ -372,7 +412,9 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     btnText: {
-        color: '#fff'
+        color: '#fff',
+        flex: 1,
+        textAlign: 'center'
     },
     label: {
         color: '#f47f20'

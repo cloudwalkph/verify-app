@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { StyleSheet, TouchableHighlight, Text, Dimensions, View, Image } from 'react-native';
 import CameraView from 'react-native-camera';
 import { Icon, Button } from 'native-base';
-import RNFetchBlob from 'react-native-fetch-blob';
+
 
 import { takePicture, clearPicture } from './camera.action';
 
@@ -78,9 +78,8 @@ class Camera extends Component {
         this.camera.capture()
             .then((data) => {
                 // alert('done');
-                RNFetchBlob.fs.readFile(data.path, 'base64').then((path) => {
-                    this.setState({ path });
-                });
+
+                this.setState({ path: data.path });
             })
             .catch(err => console.error(err));
     }
