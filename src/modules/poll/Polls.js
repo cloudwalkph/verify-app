@@ -118,6 +118,12 @@ class Polls extends Component {
         const { saveHit } = this.props;
         const { navigation, camera } = this.props;
 
+        if (! camera.picture) {
+            alert('Please take a picture first');
+
+            return;
+        }
+
         let data = {
             name: this.state.name,
             email: this.state.email,

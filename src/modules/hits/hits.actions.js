@@ -54,6 +54,7 @@ export const createHit = (hit, projectId, locationId) => {
     const id = hit.id || Date.now().toString();
     return {
         url: `ba/events/${projectId}/locations/${locationId}`,
+        withImage: true,
         method: 'post',
         body: {
             ...hit,
